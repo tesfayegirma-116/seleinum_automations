@@ -1,6 +1,5 @@
 # import selinum
 import threading
-from webbrowser import Chrome
 import openpyxl
 from selenium import webdriver
 import time
