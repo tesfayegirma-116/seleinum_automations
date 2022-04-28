@@ -1,9 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-
 import time
 import random
-
 import xlrd
 
 first_delay = random.randint(1, 3)
@@ -60,8 +58,8 @@ class social_media():
             time.sleep(third_delay)
 
             self.like_post()
-            self.comment_post()
             self.share_post()
+            self.comment_post()
 
             self.driver.quit()
 
