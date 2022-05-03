@@ -19,13 +19,13 @@ class social_media():
         self.wb_com = xlrd.open_workbook(str('exl_comments.xlsx'))
         self.sheet = self.wb_acc.sheet_by_index(0)
         self.sheetcom = self.wb_com.sheet_by_index(0)
-
         self.looper = self.sheet.nrows - 1
+        self.link = 'https://www.facebook.com/SarcasmLol'
         for self.i in range(0, self.looper):
             self.username = self.sheet.cell_value(self.i, 0)
             self.password = self.sheet.cell_value(self.i, 1)
 
-            self.comment = self.sheetcom.cell_value(self.i, 0)
+            # self.comment = self.sheetcom.cell_value(self.i, 0)
             # initalize the webdriver
             chrome_options = webdriver.ChromeOptions()
             prefs = {"profile.default_content_setting_values.geolocation": 2}
@@ -52,17 +52,14 @@ class social_media():
                 "//body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/form[1]/div[2]/button[1]").click()
             time.sleep(third_delay)
             self.driver.implicitly_wait(30)
+            self.driver.get(self.link)
             time.sleep(fouth_delay)
-            self.driver.get(
-                'https://www.facebook.com/soynosoyMEME/posts/285360866283681:0')
-            time.sleep(third_delay)
-
-            self.like_post()
-            self.share_post()
-            self.comment_post()
-
+            self.random_functions()
+            
             self.driver.quit()
 
+            
+            
     def like_post(self):
         try:
             like_buttons = self.driver.find_elements_by_class_name(
@@ -113,6 +110,7 @@ class social_media():
             print(e)
 
     def share_post(self):
+
         time.sleep(first_delay)
         body = self.driver.find_element_by_tag_name('body')
         share_buttons = self.driver.find_elements_by_class_name(
@@ -136,7 +134,36 @@ class social_media():
         except Exception as e:
             print(e)
 
+    def scroll_up_down(self):
+        body = self.driver.find_element_by_tag_name('body')
+        body.send_keys(Keys.PAGE_DOWN)
+        time.sleep(one_sec_delay)
+        body.send_keys(Keys.PAGE_UP)
+        time.sleep(one_sec_delay)
+
+    def random_functions(self):
+        random_function = random.randint(1, 3)
+        print(random_function)
+        if random_function == 1:
+            self.like_post()
+        elif random_function == 2:
+            self.like_scroll()
+        elif random_function == 3:
+            self.scroll_up_down()
+
+    def like_scroll(self):
+        self.url = 'https://www.facebook.com/Sadcasm'
+        self.driver.get(self.url)
+        self.like_post()
+        self.scroll_up_down()
+        time.sleep(third_delay)
+        self.driver.get(
+            self.url + '/posts/2518476255210934')
+        self.like_post()
+
+
 
 login = social_media()
+
 
 login.login()
