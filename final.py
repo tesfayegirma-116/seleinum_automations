@@ -55,8 +55,8 @@ class social_media():
             self.driver.get(self.link)
             time.sleep(fouth_delay)
             self.random_functions()
-            
-            self.driver.quit()
+            time.sleep(third_delay)            
+            self.logout()
 
             
             
@@ -161,7 +161,14 @@ class social_media():
             self.url + '/posts/2518476255210934')
         self.like_post()
 
+    def logout(self):
+        body = self.driver.find_element_by_tag_name('body')
+        body.send_keys(Keys.DOWN)
+        self.driver.find_element_by_xpath("//body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]/div[1]/span[1]/div[1]/div[1]").click()
+        time.sleep(third_delay)
+        self.driver.find_element_by_xpath("//span[contains(text(),'Log Out')]").click()
 
+           
 
 login = social_media()
 
