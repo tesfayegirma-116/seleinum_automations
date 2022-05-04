@@ -28,9 +28,9 @@ class social_media:
         chrome_options.add_argument("--disable-notifications")
         chrome_options.add_argument("--disable-popup-blocking")
         chrome_options.add_argument("--incognito")
-
         self.driver = webdriver.Chrome(
-            executable_path=r"/home/hope/Desktop/seli/chromedriver", options=chrome_options)
+                    executable_path=r"C:/Users/Meron/Desktop/meri/chromedriver", options=chrome_options)
+        
 
         self.driver.get('https://www.facebook.com/')
         self.driver.implicitly_wait(30)
