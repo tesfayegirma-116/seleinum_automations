@@ -4,27 +4,54 @@ import time
 import random
 import xlrd
 
+
 first_delay = random.randint(1, 3)
 second_delay = random.randint(2, 4)
 one_sec_delay = random.randint(4, 5)
-third_delay = random.randint(5, 6)
-fouth_delay = random.randint(6, 9)
+third_delay = random.randint(15, 20)
+fouth_delay = random.randint(20, 30)
 
-
+home_url = 'https://www.facebook.com/'
 class social_media():
 
+    def get_link(self):
+        file = open('link.txt', 'r+')
+
+        self.link = file.readline()
+        
+        print(self.link)
+        print(type(self.link))
+
+
+    def get_falselink(self):
+        false_file = open('false_link.txt', 'r+')
+
+        self.false_link = false_file.readline()
+
+        print(self.false_link)
+        print(type(self.false_link))
+
+
+    def rand_false_link(self):
+        len_false_link = len(self.false_link)-1
+        num = random.randrange(0, len_false_link)
+        self.randomed_false_link=self.false_link[num]
+
+
+
+    
     def login(self):
+    
         self.wb_acc = xlrd.open_workbook(str('acc.xlsx'))
         self.wb_com = xlrd.open_workbook(str('exl_comments.xlsx'))
         self.sheet = self.wb_acc.sheet_by_index(0)
         self.sheetcom = self.wb_com.sheet_by_index(0)
-        self.looper = self.sheet.nrows - 1
-        self.link = 'https://www.facebook.com/SarcasmLol'
+        self.looper = self.sheet.nrows
+        # self.link = ""
         for self.i in range(0, self.looper):
             self.username = self.sheet.cell_value(self.i, 0)
             self.password = self.sheet.cell_value(self.i, 1)
-
-            # self.comment = self.sheetcom.cell_value(self.i, 0)
+            self.comment = self.sheetcom.cell_value(self.i, 0)
             # initalize the webdriver
             chrome_options = webdriver.ChromeOptions()
             prefs = {"profile.default_content_setting_values.geolocation": 2}
@@ -39,7 +66,7 @@ class social_media():
                 executable_path=r"/home/hope/Desktop/seli/chromedriver", options=chrome_options)
 
             # fill the login form and get to the home page
-            self.driver.get('https://www.facebook.com/')
+            self.driver.get(home_url)
             time.sleep(second_delay)
             self.driver.find_element_by_xpath(
                 "//input[@id='email']").send_keys(self.username)
@@ -47,15 +74,28 @@ class social_media():
             self.driver.find_element_by_xpath(
                 "//input[@id='pass']").send_keys(self.password)
             time.sleep(fouth_delay)
-            self.driver.find_element_by_xpath(
-                "//body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/form[1]/div[2]/button[1]").click()
+            self.driver.find_element_by_name("login").click()
             time.sleep(third_delay)
             self.driver.implicitly_wait(30)
-            self.driver.get(self.link)
-            time.sleep(fouth_delay)
+            print("im here... ")
+            self.get_link()
+            print("here")
+            self.get_falselink()
+            print("false here")
+            self.chop_chop()
+            self.rand_false_link()
+
+            # self.driver.get(self.link)
+            time.sleep(one_sec_delay)
             self.random_functions()
-            time.sleep(third_delay)            
-            self.logout()          
+            time.sleep(third_delay)
+            self.target_link_perform()
+            time.sleep(second_delay)
+            
+            self.random_functions()
+            time.sleep(second_delay)
+            self.logout()
+            self.driver.quit()
             
     def like_post(self):
         try:
@@ -67,7 +107,7 @@ class social_media():
                 if cheker_like == "Like":
                     time.sleep(fouth_delay)
                     like_button.click()
-                    self.driver.implicitly_wait(30)
+                    self.driver.implicitly_wait(30) 
                     time.sleep(third_delay)
 
                     break
@@ -138,25 +178,98 @@ class social_media():
         body.send_keys(Keys.PAGE_UP)
         time.sleep(one_sec_delay)
 
+    def chop_chop(self):
+        stringg = self.link
+        self.page = ''
+        count = 0
+        for val in stringg:
+            self.page = self.page+val
+            if "/" == val:
+                count += 1
+
+                if count == 4:
+                    break
+
+
+        print(self.page)
+
     def random_functions(self):
+
+        self.driver.get(home_url)
+        time.sleep(one_sec_delay)
         random_function = random.randint(1, 3)
         print(random_function)
         if random_function == 1:
-            self.like_post()
+            self.page_like_scroll()
         elif random_function == 2:
-            self.like_scroll()
+            self.Home_scroll()
         elif random_function == 3:
             self.scroll_up_down()
 
-    def like_scroll(self):
-        self.url = 'https://www.facebook.com/Sadcasm'
-        self.driver.get(self.url)
+    def page_like_scroll(self):
+
+        first_delay = random.randint(3 ,5)
+        third_delay = random.randint(15, 20)
+        fouth_delay = random.randint(20, 30)
+        like =0
+        self.driver.get(self.randomed_false_link)
+        time.sleep(first_delay)
+        like_amount = random.randrange(4,9)
+        print(" To like button "+ str(like_amount))
+        while True:
+            if like ==like_amount:  
+                break
+            self.like_post()
+            like = like+1 
+
+            time.sleep(fouth_delay)
+            self.scroll_up_down()
+            time.sleep(third_delay) 
+    
+    def Home_scroll(self):
+
+        first_delay = random.randint(3 ,5)
+        third_delay = random.randint(15, 20)
+        fouth_delay = random.randint(20, 30)
+        like =0
+        self.driver.get(home_url)
+        time.sleep(first_delay)
+        like_amount = random.randrange(4,9)
+        print(" To like button "+ str(like_amount))
+        random_function = random.randint(1, 4)
+        print(random_function)
+     
+        while True:
+            if like ==like_amount:  
+                break
+            if random_function == 1:
+                self.like_post()
+            elif random_function == 2:
+                self.share_post()
+            else:
+                self.like_post()
+                time.sleep(first_delay)
+                self.share_post()
+                time.sleep(second_delay)
+            like = like+1
+            print(like) 
+            time.sleep(fouth_delay)
+            self.scroll_up_down()
+            time.sleep(third_delay) 
+        
+    def target_link_perform(self):
+        second_delay = random.randint(2, 4)
+        one_sec_delay = random.randint(4, 5)
+        third_delay = random.randint(5, 9)
+        time.sleep(second_delay)
+        self.driver.get(self.link)
+        time.sleep(one_sec_delay)
         self.like_post()
-        self.scroll_up_down()
         time.sleep(third_delay)
-        self.driver.get(
-            self.url + '/posts/2518476255210934')
-        self.like_post()
+        self.comment_post()
+        time.sleep(one_sec_delay)
+        self.share_post()
+        time.sleep(second_delay)
 
     def logout(self):
         body = self.driver.find_element_by_tag_name('body')
@@ -164,9 +277,10 @@ class social_media():
         self.driver.find_element_by_xpath("//body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]/div[1]/span[1]/div[1]/div[1]").click()
         time.sleep(third_delay)
         self.driver.find_element_by_xpath("//span[contains(text(),'Log Out')]").click()
+        time.sleep(fouth_delay)
+        self.driver.delete_all_cookies()
 
-           
-
+    
 login = social_media()
 
 
