@@ -14,7 +14,6 @@ fouth_delay = random.randint(6, 9)
 class social_media():
 
     def login(self):
-
         self.wb_acc = xlrd.open_workbook(str('acc.xlsx'))
         self.wb_com = xlrd.open_workbook(str('exl_comments.xlsx'))
         self.sheet = self.wb_acc.sheet_by_index(0)
@@ -56,9 +55,7 @@ class social_media():
             time.sleep(fouth_delay)
             self.random_functions()
             time.sleep(third_delay)            
-            self.logout()
-
-            
+            self.logout()          
             
     def like_post(self):
         try:
