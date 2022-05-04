@@ -51,14 +51,12 @@ class social_media():
                 "//body[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/form[1]/div[2]/button[1]").click()
             time.sleep(third_delay)
             self.driver.implicitly_wait(30)
-            self.driver.get(self.link)
+            self.driver.get(self.get_link())
             time.sleep(fouth_delay)
             self.random_functions()
-            time.sleep(third_delay)            
+            time.sleep(third_delay)
             self.logout()
-           
 
-                  
     def like_post(self):
         try:
             like_buttons = self.driver.find_elements_by_class_name(
@@ -163,11 +161,16 @@ class social_media():
     def logout(self):
         body = self.driver.find_element_by_tag_name('body')
         body.send_keys(Keys.DOWN)
-        self.driver.find_element_by_xpath("//body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]/div[1]/span[1]/div[1]/div[1]").click()
+        self.driver.find_element_by_xpath(
+            "//body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]/div[1]/span[1]/div[1]/div[1]").click()
         time.sleep(third_delay)
-        self.driver.find_element_by_xpath("//span[contains(text(),'Log Out')]").click()
+        self.driver.find_element_by_xpath(
+            "//span[contains(text(),'Log Out')]").click()
 
-           
+    def get_link(self):
+        with open('link.txt', 'r+') as f:
+            f.readline()
+
 
 login = social_media()
 
