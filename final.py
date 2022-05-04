@@ -19,7 +19,7 @@ class social_media():
         self.wb_com = xlrd.open_workbook(str('exl_comments.xlsx'))
         self.sheet = self.wb_acc.sheet_by_index(0)
         self.sheetcom = self.wb_com.sheet_by_index(0)
-        self.looper = self.sheet.nrows - 1
+        self.looper = self.sheet.nrows
         self.link = 'https://www.facebook.com/SarcasmLol'
         for self.i in range(0, self.looper):
             self.username = self.sheet.cell_value(self.i, 0)
@@ -56,9 +56,9 @@ class social_media():
             self.random_functions()
             time.sleep(third_delay)            
             self.logout()
+           
 
-            
-            
+                  
     def like_post(self):
         try:
             like_buttons = self.driver.find_elements_by_class_name(
