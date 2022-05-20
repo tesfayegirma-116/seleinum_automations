@@ -5,10 +5,11 @@ import random
 import xlrd
 import os
 import openpyxl
+from rich import print
 
 desktop = os.path.join(os.path.expanduser('~'), 'Desktop')
 folder = os.path.join(desktop, 'Facebook')
-print(folder)
+# print(folder)
 
 if not os.path.exists(folder):
     os.makedirs(folder, exist_ok=True)
@@ -31,7 +32,8 @@ if not os.path.exists(subfolder):
     os.makedirs(subfolder, exist_ok=True)
 
 else:
-    print('Folder already exists')
+    # print('Folder already exists')
+    pass
 
 # file creation begins here
 try:
@@ -39,7 +41,7 @@ try:
         f.write('')
         f.close()
 except FileNotFoundError:
-    print('File alraedy exists')
+    print('File not found')
 
 try:
     with open(os.path.join(subfolder2 + '/', 'DisableAccounts.txt'), 'w') as f:
@@ -52,7 +54,7 @@ try:
         f.write('')
         f.close()
 except FileNotFoundError:
-    print('Files alraedy exists')
+    print('Files alrady exists')
 
 try:
     wb = openpyxl.Workbook()
@@ -81,14 +83,15 @@ fifty_percent = 50
 twentyfive_percent = 25
 zero_percent = 0
 
-print("*"*20 + "  Welcome To Facebook Bot " + "*"*20)
-print("Please enter your choice for comment and share as listed below:")
-print("1.100%")
-print("2.75%")
-print("3.50%")
-print("4.25%")
-print("5.Nothing")
-my_comment = input("Please Enter your choice for comment: ")
+
+print("*"*50 + "  Welcome To Facebook Bot " + "*"*50)
+print("Please enter your choice for comment and share as listed below:", end="\n")
+print("(1) ----------------> 100%")
+print("(2) ----------------> 75%")
+print("(3) ----------------> 50%")
+print("(4) ----------------> 25%")
+print("(5)  ----------------> Nothing")
+my_comment = input("Please Enter your choice for Comment: ")
 my_share = input("Please Enter your choice for Share: ")
 
 
@@ -102,6 +105,7 @@ chrome_options.add_argument("--start-maximized")
 chrome_options.add_argument("--disable-notifications")
 chrome_options.add_argument("--disable-popup-blocking")
 chrome_options.add_argument("--incognito")
+
 
 driver2= webdriver.Chrome(
     executable_path="/home/hope/Desktop/seli/chromedriver", options=chrome_options)
@@ -119,13 +123,13 @@ try:
         pass
     time.sleep(3)
     driver2.quit()
-    print("1st")
+    # print("1st")
 except Exception as e:
     time.sleep(first_delay)
     driver2.get("https://whatismyipaddress.com/")
     driver2.implicitly_wait(10)
     pc_ip = driver2.find_element_by_xpath('//*[@id="ipv4"]/a').text
-    print(pc_ip)
+    # print(pc_ip)
     if str(pc_ip).count('.') == 3:
         pass
     else:
@@ -138,59 +142,53 @@ except Exception as e:
 
 
 
-
-
-
-
-
-
 class social_media():
 
     def comment_percent(self):
         if my_comment == "1":
-            print("You have selected 1.100%")
+            # print("You have selected 1.100%")
             self.percentile_comment = int(self.looper*hunderd_percent/100)
-            print("The percentile is: ", self.percentile_comment)
+            # print("The percentile is: ", self.percentile_comment)
         elif my_comment == "2":
-            print("You have selected 2.75%")
+            # print("You have selected 2.75%")
             self.percentile_comment = int(self.looper*seventyfive_percent/100)
-            print("The percentile is: ", self.percentile_comment)
+            # print("The percentile is: ", self.percentile_comment)
         elif my_comment == "3":
-            print("You have selected 3.50%")
+            # print("You have selected 3.50%")
             self.percentile_comment = int(self.looper*fifty_percent/100)
-            print("The percentile is: ", self.percentile_comment)
+            # print("The percentile is: ", self.percentile_comment)
         elif my_comment == "4":
-            print("You have selected 4.25%")
+            # print("You have selected 4.25%")
             self.percentile_comment = int(self.looper*twentyfive_percent/100)
-            print("The percentile is: ", self.percentile_comment)
+            # print("The percentile is: ", self.percentile_comment)
         elif my_comment == "5":
-            print("You have selected Nothing")
+            # print("You have selected Nothing")
             self.percentile_comment = int(self.looper*zero_percent/100)
-            print("The percentile is: ", self.percentile_comment)
+            # print("The percentile is: ", self.percentile_comment)
         else:
             print("You have entered an invalid choice")
 
     def share_percent(self):
         if my_share == "1":
-            print("You have selected 1.100%")
+            # print("You have selected 1.100%")
             self.percentile_share = int(self.looper*hunderd_percent/100)
-            print("The percentile is: ", self.percentile_share)
+            # print("The percentile is: ", self.percentile_share)
         elif my_share == "2":
-            print("You have selected 2.75%")
+            # print("You have selected 2.75%")
             self.percentile_share = int(self.looper*seventyfive_percent/100)
-            print("The percentile is: ", self.percentile_share)
+            # print("The percentile is: ", self.percentile_share)
         elif my_share == "3":
-            print("You have selected 3.50%")
+            # print("You have selected 3.50%")
             self.percentile_share = int(self.looper*fifty_percent/100)
-            print("The percentile is: ", self.percentile_share)
+            # print("The percentile is: ", self.percentile_share)
         elif my_share == "4":
-            print("You have selected 4.25%")
+            # print("You have selected 4.25%")
             self.percentile_share = int(self.looper*twentyfive_percent/100)
-            print("The percentile is: ", self.percentile_share)
+            # print("The percentile is: ", self.percentile_share)
         elif my_share == "5":
-            print("You have selected Nothing")
+            # print("You have selected Nothing")
             self.percentile_share = int(self.looper*zero_percent/100)
-            print("The percentile is: ", self.percentile_share)
+            # print("The percentile is: ", self.percentile_share)
         else:
             print("You have entered an invalid choice")
 
@@ -199,16 +197,10 @@ class social_media():
 
         self.link = file.readline()
 
-        print(self.link)
-        print(type(self.link))
-
     def get_falselink(self):
         false_file = open('false_link.txt', 'r+')
 
         self.false_link = false_file.readline()
-
-        print(self.false_link)
-        print(type(self.false_link))
 
     def rand_false_link(self):
         len_false_link = len(self.false_link)-1
@@ -234,6 +226,18 @@ class social_media():
         except:
             self.last_line = 0
 
+        if self.last_line == self.looper:
+            f = open('Working_Accounts.txt', 'w')
+            f.truncate()
+            self.last_line = 0
+            print("All accounts have been used")
+
+
+        A=[0,1,2,3,4,5,6,7,8,9]
+        B=[1,2,3]
+        Randomizer=['even','odd']
+        max=5
+        changed_counter=0
         for self.i in range(self.last_line, self.looper):
             first_delay = random.randint(1, 3)
             second_delay = random.randint(2, 4)
@@ -244,6 +248,46 @@ class social_media():
             self.password = self.sheet.cell_value(self.i, 1)
             self.comment = self.sheetcom.cell_value(self.i, 0)
             # initalize the webdriver
+
+
+            s=random.choice(A) 
+            z=random.choice(B)
+            c=s*z
+            print("value of c:",c)
+
+            Randf=random.choice(Randomizer)
+
+            if c%2 == 0 and Randf == 'even' and changed_counter < max:
+                print('even.................change IP')
+                self.con_disable()
+                self.conn_enable()
+                self.check()
+
+                changed_counter+=1
+
+            elif c%2 !=0 and Randf == 'odd' and changed_counter < max-1:
+                print('odd.................change IP')
+                changed_counter+=1
+                self.con_disable()
+                self.conn_enable()
+                self.check()
+
+            if changed_counter==0 and self.i%5==0:
+                print('Max Ip changed')
+                self.con_disable()
+                self.conn_enable()
+                self.check()
+            if changed_counter==max:
+        
+                changed_counter=0
+                self.driver.quit()
+
+            else:
+                print('not changed')
+
+
+            
+
             chrome_options = webdriver.ChromeOptions()
             prefs = {"profile.default_content_setting_values.geolocation": 2}
             chrome_options.add_experimental_option("prefs", prefs)
@@ -256,7 +300,7 @@ class social_media():
             self.driver = webdriver.Chrome(
                 executable_path=r"/home/hope/Desktop/seli/chromedriver", options=chrome_options)
 
-            self.check()
+            # self.check()
             time.sleep(second_delay)
             # fill the login form and get to the home page
             self.driver.get(home_url)
@@ -278,7 +322,6 @@ class social_media():
                 f = open('Working_Accounts.txt', 'a')
                 f.write(str(self.i) + '\n')
                 f.close()
-                print("im here... ")
 
                 self.comment_percent()
                 self.share_percent()
@@ -291,15 +334,16 @@ class social_media():
                 time.sleep(third_delay)
                 self.rand_false_link()
 
-                # self.driver.get(self.link)
+                # # self.driver.get(self.link)
                 time.sleep(one_sec_delay)
                 self.random_functions()
-                time.sleep(third_delay)
+                # time.sleep(third_delay)
 
                 self.target_link_perform()
                 time.sleep(second_delay)
 
                 self.random_functions()
+
                 time.sleep(second_delay)
                 self.logout()
 
@@ -564,8 +608,6 @@ class social_media():
 
         self.driver = webdriver.Chrome(
             executable_path=r"/home/hope/Desktop/seli/chromedriver", options=chrome_options)
-
-        print("hetrererrrrrrxzchhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
         self.driver.get('http://192.168.8.1/html/home.html')
         time.sleep(10)
         xxx = self.driver.find_element_by_xpath(
@@ -582,6 +624,19 @@ class social_media():
             self.driver.quit()
             
     def con_disable(self):
+        chrome_options = webdriver.ChromeOptions()
+        prefs = {"profile.default_content_setting_values.geolocation": 2}
+        chrome_options.add_experimental_option("prefs", prefs)
+        chrome_options.add_argument("--disable-infobars")
+        chrome_options.add_argument("--start-maximized")
+        chrome_options.add_argument("--disable-notifications")
+        chrome_options.add_argument("--disable-popup-blocking")
+        chrome_options.add_argument("--incognito")
+
+        self.driver = webdriver.Chrome(
+            executable_path=r"/home/hope/Desktop/seli/chromedriver", options=chrome_options)
+
+        print("disable")
         self.driver.get('http://192.168.8.1/html/home.html')
         time.sleep(first_delay)
         xd = self.driver.find_element_by_xpath(
@@ -596,12 +651,6 @@ class social_media():
             time.sleep(2)
             print('Connection disconnected')
             self.driver.quit()
-
-
-
-
-
-
 
 
 
