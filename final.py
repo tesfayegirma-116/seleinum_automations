@@ -6,6 +6,8 @@ import xlrd
 import os
 import openpyxl
 from rich import print
+import pyfiglet
+
 
 desktop = os.path.join(os.path.expanduser('~'), 'Desktop')
 folder = os.path.join(desktop, 'Facebook')
@@ -84,13 +86,16 @@ twentyfive_percent = 25
 zero_percent = 0
 
 
-print("*"*50 + "  Welcome To Facebook Bot " + "*"*50)
+# print("*"*50 + "  Welcome To Facebook Bot " + "*"*50)
+ascii_banner = pyfiglet.figlet_format("F a c e b o o k  Bot" )
+print(ascii_banner)
+
 print("Please enter your choice for comment and share as listed below:", end="\n")
 print("(1) ----------------> 100%")
 print("(2) ----------------> 75%")
 print("(3) ----------------> 50%")
 print("(4) ----------------> 25%")
-print("(5)  ----------------> Nothing")
+print("(5) ----------------> Nothing")
 my_comment = input("Please Enter your choice for Comment: ")
 my_share = input("Please Enter your choice for Share: ")
 
