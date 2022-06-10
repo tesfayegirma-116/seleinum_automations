@@ -1,3 +1,4 @@
+import sys
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
@@ -8,85 +9,26 @@ import openpyxl
 from rich import print
 import pyfiglet
 
-
-desktop = os.path.join(os.path.expanduser('~'), 'Desktop')
-folder = os.path.join(desktop, 'Facebook')
-# print(folder)
-
-if not os.path.exists(folder):
-    os.makedirs(folder, exist_ok=True)
-subfolder1 = os.path.join(folder, 'Urls')
-
-
-if not os.path.exists(subfolder1):
-    os.makedirs(subfolder1, exist_ok=True)
-subfolder2 = os.path.join(folder, 'Accounts Status')
-
-if not os.path.exists(subfolder2):
-    os.makedirs(subfolder2, exist_ok=True)
-subfolder3 = os.path.join(folder, 'Accounts & Passwords')
-
-if not os.path.exists(subfolder3):
-    os.makedirs(subfolder3, exist_ok=True)
-subfolder = os.path.join(folder, 'ChromeDriver')
-
-if not os.path.exists(subfolder):
-    os.makedirs(subfolder, exist_ok=True)
-
-else:
-    # print('Folder already exists')
-    pass
-
-# file creation begins here
-try:
-    with open(os.path.join(subfolder1 + '/', 'links.txt'), 'w') as f:
-        f.write('')
-        f.close()
-except FileNotFoundError:
-    print('File not found')
-
-try:
-    with open(os.path.join(subfolder2 + '/', 'DisableAccounts.txt'), 'w') as f:
-        f.write('')
-        f.close()
-    with open(os.path.join(subfolder2 + '/', 'WorkingAccounts.txt'), 'w') as f:
-        f.write('')
-        f.close()
-    with open(os.path.join(subfolder2 + '/', 'PasswordFail.txt'), 'w') as f:
-        f.write('')
-        f.close()
-except FileNotFoundError:
-    print('Files alrady exists')
-
-try:
-    wb = openpyxl.Workbook()
-    wb.save(os.path.join(subfolder3 + '/', 'Accounts.xlsx'))
-    wb.save(os.path.join(subfolder3 + '/', 'Comments.xlsx'))
-    wb.close()
-except FileNotFoundError:
-    print('File alraedy exists')
-
-
+   
+#delay timer for random time
 first_delay = random.randint(1, 3)
 second_delay = random.randint(2, 4)
 one_sec_delay = random.randint(4, 5)
-third_delay = random.randint(15, 20)
-fouth_delay = random.randint(20, 30)
-
+third_delay = random.randint(5, 8)
+fouth_delay = random.randint(2, 5)
 # links variable
 home_url = 'https://www.facebook.com/'
 disbled_link = 'checkpoint/disabled/?next'
 password_fail = 'login/?privacy_mutation_token'
 
-
+#check percentage of success
 hunderd_percent = 100
 seventyfive_percent = 75
 fifty_percent = 50
 twentyfive_percent = 25
 zero_percent = 0
 
-
-# print("*"*50 + "  Welcome To Facebook Bot " + "*"*50)
+#Home page of  Terminal
 ascii_banner = pyfiglet.figlet_format("F a c e b o o k  Bot" )
 print(ascii_banner)
 
@@ -101,75 +43,131 @@ my_share = input("Please Enter your choice for Share: ")
 
 
 
-
-chrome_options = webdriver.ChromeOptions()
-prefs = {"profile.default_content_setting_values.geolocation": 2}
-chrome_options.add_experimental_option("prefs", prefs)
-chrome_options.add_argument("--disable-infobars")
-chrome_options.add_argument("--start-maximized")
-chrome_options.add_argument("--disable-notifications")
-chrome_options.add_argument("--disable-popup-blocking")
-chrome_options.add_argument("--incognito")
-
-
-driver2= webdriver.Chrome(
-    executable_path="/home/hope/Desktop/seli/chromedriver", options=chrome_options)
-time.sleep(first_delay)
-driver2.get("https://ident.me/")
-try:
-    pc_ip = driver2.find_element_by_xpath("/html/body/pre").text
-    print(pc_ip)
-    if str(pc_ip).count('.') == 3:
-        pass
-    else:
-        driver2.get('https://ifconfig.me/ip')
-        time.sleep(2)
-        pc_ip = driver2.find_element_by_xpath("/html/body/pre").text
-        pass
-    time.sleep(3)
-    driver2.quit()
-    # print("1st")
-except Exception as e:
-    time.sleep(first_delay)
-    driver2.get("https://whatismyipaddress.com/")
-    driver2.implicitly_wait(10)
-    pc_ip = driver2.find_element_by_xpath('//*[@id="ipv4"]/a').text
-    # print(pc_ip)
-    if str(pc_ip).count('.') == 3:
-        pass
-    else:
-        driver2.get('https://ifconfig.me/ip')
-        time.sleep(small_delay)
-        pc_ip = driver2.find_element_by_xpath("/html/body/pre").text
-        pass
-    time.sleep(first_delay)
-    driver2.quit()
-
-
-
 class social_media():
+
+    def create(self):
+        desktop = os.path.join(os.path.expanduser('~'), 'Desktop')
+        folder = os.path.join(desktop, 'Facebook')
+        # print(folder)
+
+        if not os.path.exists(folder):
+            os.makedirs(folder, exist_ok=True)
+        subfolder1 = os.path.join(folder, 'Urls')
+
+
+        if not os.path.exists(subfolder1):
+            os.makedirs(subfolder1, exist_ok=True)
+        subfolder2 = os.path.join(folder, 'Accounts Status')
+
+        if not os.path.exists(subfolder2):
+            os.makedirs(subfolder2, exist_ok=True)
+        subfolder3 = os.path.join(folder, 'Accounts & Passwords')
+
+        if not os.path.exists(subfolder3):
+            os.makedirs(subfolder3, exist_ok=True)
+        subfolder = os.path.join(folder, 'ChromeDriver')
+
+        if not os.path.exists(subfolder):
+            os.makedirs(subfolder, exist_ok=True)
+
+        else:
+            # print('Folder already exists')
+            pass
+
+        # file creation begins here
+        try:
+            with open(os.path.join(subfolder1 + '/', 'links.txt'), 'w') as f:
+                f.write('')
+                f.close()
+        except FileNotFoundError:
+            print('File not found')
+
+        try:
+            with open(os.path.join(subfolder2 + '/', 'DisableAccounts.txt'), 'w') as f:
+                f.write('')
+                f.close()
+            with open(os.path.join(subfolder2 + '/', 'WorkingAccounts.txt'), 'w') as f:
+                f.write('')
+                f.close()
+            with open(os.path.join(subfolder2 + '/', 'PasswordFail.txt'), 'w') as f:
+                f.write('')
+                f.close()
+        except FileNotFoundError:
+            print('Files alrady exists')
+
+        try:
+            wb = openpyxl.Workbook()
+            wb.save(os.path.join(subfolder3 + '/', 'Accounts.xlsx'))
+            wb.save(os.path.join(subfolder3 + '/', 'Comments.xlsx'))
+            wb.close()
+        except FileNotFoundError:
+            print('File alraedy exists')
+
+    def check_initial(self):
+        chrome_options = webdriver.ChromeOptions()
+        prefs = {"profile.default_content_setting_values.geolocation": 2}
+        chrome_options.add_experimental_option("prefs", prefs)
+        chrome_options.add_argument("--disable-infobars")
+        chrome_options.add_argument("--start-maximized")
+        chrome_options.add_argument("--disable-notifications")
+        chrome_options.add_argument("--disable-popup-blocking")
+        chrome_options.add_argument("--incognito")
+
+
+        driver2= webdriver.Chrome(
+            executable_path="/home/hope/Desktop/seli/chromedriver", options=chrome_options)
+        time.sleep(first_delay)
+        driver2.get("https://ident.me/")
+        try:
+            self.pc_ip = driver2.find_element_by_xpath("/html/body/pre").text
+            print(self.pc_ip)
+            if str(self.pc_ip).count('.') == 3:
+                pass
+            else:
+                driver2.get('https://ifconfig.me/ip')
+                time.sleep(2)
+                self.pc_ip = driver2.find_element_by_xpath("/html/body/pre").text
+                pass
+            time.sleep(3)
+            driver2.quit()
+            # print("1st")
+        except Exception as e:
+            time.sleep(first_delay)
+            driver2.get("https://whatismyipaddress.com/")
+            driver2.implicitly_wait(10)
+            self.pc_ip = driver2.find_element_by_xpath('//*[@id="ipv4"]/a').text
+            # print(pc_ip)
+            if str(self.pc_ip).count('.') == 3:
+                pass
+            else:
+                driver2.get('https://ifconfig.me/ip')
+                time.sleep(small_delay)
+                self.pc_ip = driver2.find_element_by_xpath("/html/body/pre").text
+                pass
+            time.sleep(first_delay)
+            driver2.quit()
 
     def comment_percent(self):
         if my_comment == "1":
             # print("You have selected 1.100%")
             self.percentile_comment = int(self.looper*hunderd_percent/100)
-            # print("The percentile is: ", self.percentile_comment)
+            print("The percentile is: ", self.percentile_comment)
         elif my_comment == "2":
             # print("You have selected 2.75%")
             self.percentile_comment = int(self.looper*seventyfive_percent/100)
-            # print("The percentile is: ", self.percentile_comment)
+            print("The percentile is: ", self.percentile_comment)
         elif my_comment == "3":
             # print("You have selected 3.50%")
             self.percentile_comment = int(self.looper*fifty_percent/100)
-            # print("The percentile is: ", self.percentile_comment)
+            print("The percentile is: ", self.percentile_comment)
         elif my_comment == "4":
             # print("You have selected 4.25%")
             self.percentile_comment = int(self.looper*twentyfive_percent/100)
-            # print("The percentile is: ", self.percentile_comment)
+            print("The percentile is: ", self.percentile_comment)
         elif my_comment == "5":
             # print("You have selected Nothing")
             self.percentile_comment = int(self.looper*zero_percent/100)
-            # print("The percentile is: ", self.percentile_comment)
+            print("The percentile is: ", self.percentile_comment)
         else:
             print("You have entered an invalid choice")
 
@@ -177,23 +175,23 @@ class social_media():
         if my_share == "1":
             # print("You have selected 1.100%")
             self.percentile_share = int(self.looper*hunderd_percent/100)
-            # print("The percentile is: ", self.percentile_share)
+            print("The percentile is: ", self.percentile_share)
         elif my_share == "2":
             # print("You have selected 2.75%")
             self.percentile_share = int(self.looper*seventyfive_percent/100)
-            # print("The percentile is: ", self.percentile_share)
+            print("The percentile is: ", self.percentile_share)
         elif my_share == "3":
             # print("You have selected 3.50%")
             self.percentile_share = int(self.looper*fifty_percent/100)
-            # print("The percentile is: ", self.percentile_share)
+            print("The percentile is: ", self.percentile_share)
         elif my_share == "4":
             # print("You have selected 4.25%")
             self.percentile_share = int(self.looper*twentyfive_percent/100)
-            # print("The percentile is: ", self.percentile_share)
+            print("The percentile is: ", self.percentile_share)
         elif my_share == "5":
             # print("You have selected Nothing")
             self.percentile_share = int(self.looper*zero_percent/100)
-            # print("The percentile is: ", self.percentile_share)
+            print("The percentile is: ", self.percentile_share)
         else:
             print("You have entered an invalid choice")
 
@@ -213,6 +211,8 @@ class social_media():
         self.randomed_false_link = self.false_link[num]
 
     def login(self):
+        # self.create()
+        # self.check_initial()
         self.track_comment = 0
         self.track_share = 0
 
@@ -222,75 +222,77 @@ class social_media():
         self.sheetcom = self.wb_com.sheet_by_index(0)
         self.looper = self.sheet.nrows
 
+
+        #truncate working_accounts.txt if it already equal to self.looper
+        
         try:
 
             f = open('Working_Accounts.txt', 'r')
             x = f.readlines()
-            y = len(x)-1
+            y = len(x) - 1
             self.last_line = int(x[y])
+            print(self.last_line, "is the last line", self.looper, "is the looper")
+            if self.last_line == self.looper:
+                f = open('Working_Accounts.txt', 'w')
+                f.truncate()
+                self.last_line = 0
+                print("All accounts have been used")
         except:
             self.last_line = 0
-
-        if self.last_line == self.looper:
-            f = open('Working_Accounts.txt', 'w')
-            f.truncate()
-            self.last_line = 0
-            print("All accounts have been used")
+             
 
 
-        A=[0,1,2,3,4,5,6,7,8,9]
-        B=[1,2,3]
-        Randomizer=['even','odd']
-        max=5
-        changed_counter=0
+        # A=[0,1,2,3,4,5,6,7,8,9]
+        # B=[1,2,3]
+        # Randomizer=['even','odd']
+        # max=5
+        # changed_counter=0
         for self.i in range(self.last_line, self.looper):
             first_delay = random.randint(1, 3)
             second_delay = random.randint(2, 4)
             one_sec_delay = random.randint(4, 5)
-            third_delay = random.randint(15, 20)
-            fouth_delay = random.randint(20, 30)
+            third_delay = random.randint(5, 8)
+            fouth_delay = random.randint(2, 5)
             self.username = self.sheet.cell_value(self.i, 0)
             self.password = self.sheet.cell_value(self.i, 1)
             self.comment = self.sheetcom.cell_value(self.i, 0)
             # initalize the webdriver
+            
 
+            # s=random.choice(A) 
+            # z=random.choice(B)
+            # c=s*z
+            # print("value of c:",c)
 
-            s=random.choice(A) 
-            z=random.choice(B)
-            c=s*z
-            print("value of c:",c)
+            # Randf=random.choice(Randomizer)
 
-            Randf=random.choice(Randomizer)
+            # if c%2 == 0 and Randf == 'even' and changed_counter < max:
+            #     print('even.................change IP')
+            #     self.con_disable()
+            #     self.conn_enable()
+            #     self.check()
 
-            if c%2 == 0 and Randf == 'even' and changed_counter < max:
-                print('even.................change IP')
-                self.con_disable()
-                self.conn_enable()
-                self.check()
+            #     changed_counter+=1
 
-                changed_counter+=1
+            # elif c%2 !=0 and Randf == 'odd' and changed_counter < max-1:
+            #     print('odd.................change IP')
+            #     changed_counter+=1
+            #     self.con_disable()
+            #     self.conn_enable()
+            #     self.check()
 
-            elif c%2 !=0 and Randf == 'odd' and changed_counter < max-1:
-                print('odd.................change IP')
-                changed_counter+=1
-                self.con_disable()
-                self.conn_enable()
-                self.check()
-
-            if changed_counter==0 and self.i%5==0:
-                print('Max Ip changed')
-                self.con_disable()
-                self.conn_enable()
-                self.check()
-            if changed_counter==max:
+            # if changed_counter==0 and self.i%5==0:
+            #     print('Max Ip changed')
+            #     self.con_disable()
+            #     self.conn_enable()
+            #     self.check()
+            # if changed_counter==max:
         
-                changed_counter=0
-                self.driver.quit()
+            #     changed_counter=0
+            #     self.driver.quit()
 
-            else:
-                print('not changed')
-
-
+            # else:
+            #     pass
             
 
             chrome_options = webdriver.ChromeOptions()
@@ -305,8 +307,6 @@ class social_media():
             self.driver = webdriver.Chrome(
                 executable_path=r"/home/hope/Desktop/seli/chromedriver", options=chrome_options)
 
-            # self.check()
-            time.sleep(second_delay)
             # fill the login form and get to the home page
             self.driver.get(home_url)
             time.sleep(second_delay)
@@ -329,25 +329,26 @@ class social_media():
                 f.close()
 
                 self.comment_percent()
+                # print("The comment with : ", self.percentile_comment , "accounts")
                 self.share_percent()
+                # print("The share with : ", self.percentile_share , "accounts")
 
-                self.get_link()
-                print("here")
-                self.get_falselink()
-                print("false here")
-                self.chop_chop()
-                time.sleep(third_delay)
-                self.rand_false_link()
+                # self.get_link()
+                # self.get_falselink()
+                # print("false here")
+                # self.chop_chop()
+                # time.sleep(third_delay)
+                # self.rand_false_link()
 
                 # # self.driver.get(self.link)
                 time.sleep(one_sec_delay)
-                self.random_functions()
+                # self.random_functions()
                 # time.sleep(third_delay)
 
                 self.target_link_perform()
-                time.sleep(second_delay)
+                # time.sleep(second_delay)
 
-                self.random_functions()
+                # self.random_functions()""
 
                 time.sleep(second_delay)
                 self.logout()
@@ -411,33 +412,40 @@ class social_media():
             print(e)
 
     def comment_post(self):
-        time.sleep(first_delay)
-        body = self.driver.find_element_by_tag_name('body')
-        try:
 
-            comment_buttons = self.driver.find_elements_by_class_name(
-                "oo9gr5id.lzcic4wl.l9j0dhe7.gsox5hk5.notranslate")
-            for comment_button in comment_buttons:
-                cheker_comment = comment_button.get_attribute("aria-label")
-                if cheker_comment == "Write a comment":
-                    # page down
-                    time.sleep(first_delay)
-                    comment_button.click()
-                    time.sleep(third_delay)
-                    print(self.comment)
-                    comment_button.send_keys(self.comment)
-                    time.sleep(third_delay)
-                    self.driver.implicitly_wait(30)
-                    time.sleep(first_delay)
-                    comment_button.send_keys(Keys.ENTER)
-                    body.send_keys(Keys.PAGE_DOWN)
-                    time.sleep(third_delay)
-                    self.driver.implicitly_wait(30)
-                else:
-                    pass
+            time.sleep(first_delay)
+            body = self.driver.find_element_by_tag_name('body')
+            try:
 
-        except Exception as e:
-            print(e)
+                comment_buttons = self.driver.find_elements_by_class_name(
+                    "oo9gr5id.lzcic4wl.l9j0dhe7.gsox5hk5.notranslate")
+                for comment_button in comment_buttons:
+                    cheker_comment = comment_button.get_attribute("aria-label")
+                    if cheker_comment == "Write a comment":
+                        # page down
+                        time.sleep(first_delay)
+                        comment_button.click()
+                        time.sleep(third_delay)
+                        print(self.comment)
+                        comment_button.send_keys(self.comment)
+                        time.sleep(third_delay)
+                        self.driver.implicitly_wait(30)
+                        time.sleep(first_delay)
+                        comment_button.send_keys(Keys.ENTER)
+                        self.track_comment = self.track_comment + 1
+                        with open('comment_track.txt', 'w') as f:
+                            f.write(str(self.track_comment))
+                            print("comment track : ", self.track_comment)
+
+
+                        body.send_keys(Keys.PAGE_DOWN)
+                        time.sleep(third_delay)
+                        self.driver.implicitly_wait(30)
+                    else:
+                        pass
+
+            except Exception as e:
+                print(e)
 
     def share_post(self):
 
@@ -456,6 +464,10 @@ class social_media():
                     self.driver.find_element_by_xpath(
                         "//body[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/span[1]/span[1]").click()
                     self.driver.implicitly_wait(30)
+                    self.track_share = self.track_share + 1
+                    with open('share_track.txt', 'w') as f:
+                        f.write(str(self.track_share))
+                        print("share track : ", self.track_share)
 
                     time.sleep(one_sec_delay)
 
@@ -554,17 +566,50 @@ class social_media():
         one_sec_delay = random.randint(4, 5)
         third_delay = random.randint(5, 9)
         time.sleep(second_delay)
-        self.driver.get(self.link)
+        self.driver.get("https://www.facebook.com/INSA.ETHIOPIA/posts/395607995939115")
         time.sleep(one_sec_delay)
         self.like_post()
         time.sleep(third_delay)
 
-        if self.track_comment < int(self.percentile_comment+1):
-            self.comment_post()
-        if self.track_share < int(self.percentile_share+1):
-            self.share_post()
-        else:
+        time.sleep(second_delay)
+        #only comment with persntage of account 
+        if self.percentile_comment == self.track_comment:
+            print("not comment")
             pass
+        else:
+            time.sleep(third_delay)
+            self.comment_post()
+            time.sleep(third_delay)
+    
+        # self.comment_post()
+        time.sleep(third_delay)
+        if self.percentile_share == self.track_share:
+            print("not share")
+            pass
+        else:
+            self.share_post()
+            self.i = 0
+            time.sleep(third_delay)
+
+        if self.percentile_comment == self.track_comment and self.percentile_share == self.track_share:
+            print("not comment and share")
+            try:
+                self.driver.quit()
+            except Exception as e:
+                print(e)
+            
+            sys.exit()
+
+        # self.share_post()
+        time.sleep(third_delay)
+        # if self.track_comment < int(self.percentile_comment+1):
+        #     self.comment_post()
+        #     self.share_post()
+        # if self.track_share < int(self.percentile_share+1):
+        #     self.comment_post()
+        #     self.share_post()
+        # else:
+        #     pass
 
     def logout(self):
         body = self.driver.find_element_by_tag_name('body')
@@ -585,14 +630,14 @@ class social_media():
                 ip_curr = self.driver.find_element_by_xpath(
                     "/html/body/pre").text
             except Exception as h:
-                print(h)
-            if pc_ip != ip_curr:
-                print("Now WE can pass Because IP is changed", pc_ip, ip_curr)
+               pass
+            if self.pc_ip != ip_curr:
+                print("Now WE can pass Because IP is changed", self.pc_ip + "!=" + ip_curr)
                 time.sleep(second_delay)
                 break
             else:
                 print("Try again!!!")
-                print(pc_ip, ip_curr)
+                print(self.pc_ip + "==" + ip_curr)
                 print("Waiting for seconds to check again")
                 self.con_disable()
                 time.sleep(fouth_delay)
@@ -622,7 +667,6 @@ class social_media():
             self.driver.find_element_by_xpath(
                 "//span[@id='mobile_connect_btn']").click()
             print('Connecting to internet...')
-            time.sleep(2)
             time.sleep(fouth_delay)
             pass
         else:
