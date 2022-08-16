@@ -305,7 +305,7 @@ class social_media():
             chrome_options.add_argument("--incognito")
 
             self.driver = webdriver.Chrome(service=Service(
-                ChromeDriverManager().install()), chrome_options=chrome_options)
+                ChromeDriverManager().install()), options=chrome_options)
 
             # fill the login form and get to the home page
             self.driver.get(home_url)
@@ -447,20 +447,25 @@ class social_media():
             print(e)
 
     def share_post(self):
-
         time.sleep(first_delay)
         body = self.driver.find_element(By.TAG_NAME, 'body')
         share_buttons = self.driver.find_elements(By.CLASS_NAME,
                                                   "oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.mg4g778l.pfnyh3mw.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.n00je7tq.arfg74bv.qs9ysxi8.k77z8yql.pq6dq46d.btwxx1t3.abiwlrkh.p8dawk7l.lzcic4wl")
         try:
             for share_button in share_buttons:
+                time.sleep(first_delay)
                 checker_share = share_button.get_attribute("aria-label")
-                if checker_share == "Send this to friends or post it on your timeline.":
+
+                print(checker_share)
+                if checker_share == "Send this to friends or post it on your timeline." or "Send this to" in checker_share:
+                    print("    SHARE NOW      ")
                     third_delay = random.randint(5, 6)
                     time.sleep(third_delay)
+                    print("BGHVGHJVDVGDVGVG               SHARE NOW ")
                     share_button.click()
-                    time.sleep(one_sec_delay)
-                    sharenows = self.driver.find_elements(By.CLASS_NAME,"ow4ym5g4.auili1gw.rq0escxv.j83agx80.buofh1pr.g5gj957u.i1fnvgqd.oygrvhab.cxmmr5t8.hcukyx3x.kvgmc6g5.tgvbjcpo.hpfvmrgz.qt6c0cv9.jb3vyjys.l9j0dhe7.du4w35lb.bp9cbjyn.btwxx1t3.dflh9lhu.scb9dxdr")
+                    self.driver.implicitly_wait(30)
+                    sharenows = self.driver.find_elements(
+                        By.CLASS_NAME, "goun2846.mk2mc5f4.ccm00jje.s44p3ltw.rt8b4zig.sk4xxmp2.n8ej3o3l.agehan2d.rq0escxv.j83agx80.buofh1pr.g5gj957u.i1fnvgqd.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.qt6c0cv9.l9j0dhe7.du4w35lb.bp9cbjyn.btwxx1t3.dflh9lhu.scb9dxdr")
                     self.driver.implicitly_wait(30)
                     for sharenow in sharenows:
                         print(sharenow.text)
@@ -607,19 +612,6 @@ class social_media():
             self.driver.delete_all_cookies()
             time.sleep(third_delay)
             self.driver.quit()
-
-
-
-
-        # self.share_post()
-        # if self.track_comment < int(self.percentile_comment+1):
-        #     self.comment_post()
-        #     self.share_post()
-        # if self.track_share < int(self.percentile_share+1):
-        #     self.comment_post()
-        #     self.share_post()
-        # else:
-        #     pass
 
     def logout(self):
         body = self.driver.find_element(By.TAG_NAME, 'body')
