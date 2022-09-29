@@ -13,7 +13,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 console = Console()
 
-delay = random.randint(5, 20)
+delay = random.randint(1, 3)
 
 
 ascii_banner = pyfiglet.figlet_format(
@@ -76,20 +76,25 @@ class NewPostFlag(object):
                     self.driver.window_handles[self.i])
                 time.sleep(delay)
                 self.driver.refresh()
-                time.sleep(delay)
-                page_time = random.uniform(0.5, 4.5)
-                body_elem = self.driver.find_element(By.TAG_NAME, 'body')
-                body_elem.send_keys(Keys.PAGE_DOWN)
-                time.sleep(page_time)
-                body_elem.send_keys(Keys.PAGE_DOWN)
-                time.sleep(page_time)
-                body_elem.send_keys(Keys.PAGE_UP)
-                time.sleep(page_time)
-                body_elem.send_keys(Keys.PAGE_UP)
                 times = self.driver.find_elements(
-                    By.CLASS_NAME, "oajrlxb2.g5ia77u1.qu0x051f.esr5mh6w.e9989ue4.r7d6kgcz.rq0escxv.nhd2j8a9.nc684nl6.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.i1ao9s8h.esuyzwwr.f1sip0of.lzcic4wl.gmql0nx0.gpro0wi8.b1v8xokw")
+                    By.CLASS_NAME, "qi72231t.nu7423ey.n3hqoq4p.r86q59rh.b3qcqh3k.fq87ekyn.bdao358l.fsf7x5fv.rse6dlih.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.srn514ro.oxkhqvkx.rl78xhln.nch0832m.cr00lzj9.rn8ck1ys.s3jn8y49.icdlwmnq.jxuftiz4.cxfqmxzd.tes86rjd")
                 for ttime in times:
-                    sttime = ttime.get_attribute("aria-label")
+                    
+                    body_elem = self.driver.find_element(By.TAG_NAME, 'body')
+
+                    body_elem.send_keys(Keys.PAGE_DOWN)
+                    time.sleep(delay)
+                    body_elem.send_keys(Keys.PAGE_DOWN)
+                    time.sleep(delay)
+                    body_elem.send_keys(Keys.PAGE_DOWN)
+                    time.sleep(delay)
+                    body_elem.send_keys(Keys.PAGE_UP)
+                    time.sleep(delay)
+                    body_elem.send_keys(Keys.PAGE_UP)
+                    time.sleep(delay)
+                    body_elem.send_keys(Keys.PAGE_UP)
+                    
+                    sttime = ttime.text
                     print(sttime)
                     time.sleep(delay)
 
@@ -108,17 +113,18 @@ class NewPostFlag(object):
                             fs.truncate()
                             fs.close()
 
-                    elif sttime == "1 min":
+                    elif sttime == "2h":
                         print("flag just now")
-                        self.web = self.driver.current_url
-                        with open("./links/file.txt", "a") as f:
+                        links = [elem.get_attribute('href') for elem in times]
+                        print("Here is New Link -->   ",str(links[0]))
+                        with open("./links/file.txt", 'a+') as f:
                             f.writelines("\n")
-                            f.writelines("New Post on " + self.web)
+                            f.writelines("New Post on " + links[0])
                             f.writelines("\n")
                             f.close()
                         webbrowser.open("./links/file.txt")
                         time.sleep(delay)
-                        with open("./links/file.txt", 'a') as fs:
+                        with open("./links/file.txt", 'a+') as fs:
                             fs.seek(0)
                             fs.truncate()
                             fs.close()
@@ -126,14 +132,14 @@ class NewPostFlag(object):
                     elif sttime == "5 mins":
                         print("flag just now")
                         self.web = self.driver.current_url
-                        with open("./links/file.txt", "a") as f:
+                        with open("./links/file.txt", "a+") as f:
                             f.writelines("\n")
                             f.writelines("New Post on " + self.web)
                             f.writelines("\n")
                             f.close()
                         webbrowser.open("./links/file.txt")
                         time.sleep(delay)
-                        with open("./links/file.txt", 'a') as fs:
+                        with open("./links/file.txt", 'a+') as fs:
                             fs.seek(0)
                             fs.truncate()
                             fs.close()
