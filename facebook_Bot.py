@@ -20,12 +20,17 @@ ascii_banner = pyfiglet.figlet_format(
 console.print(ascii_banner, justify="left")
 
 console.rule(
-    f"Enter the number of accounts for Comment and Share Below {datetime.now().ctime()}")
-console.print("(1)  for   100%  accounts", justify="center")
-console.print("(2)  for   75%   accounts", justify="center")
-console.print("(3)  for   50%   accounts", justify="center")
-console.print("(4)  for   25%   accounts", justify="center")
-console.print("(5)  for   0%    accounts", justify="center")
+    f"Enter the number of accounts for Comment and Share Below: Current Date & Time:  {datetime.now().ctime()}")
+console.print("(1)  for   100%  accounts",
+              justify="center", style="white on magenta")
+console.print("(2)  for   75%   accounts",
+              justify="center", style="white on magenta")
+console.print("(3)  for   50%   accounts",
+              justify="center", style="white on magenta")
+console.print("(4)  for   25%   accounts",
+              justify="center", style="white on magenta")
+console.print("(5)  for   0%    accounts",
+              justify="center", style="white on magenta")
 
 
 my_comment = input("Please Enter for Comment: ")
@@ -49,28 +54,30 @@ class social_media():
             str('./accounts and comment/comments.xlsx'))
         self.sheet = self.wb_acc.sheet_by_index(0)
         self.sheetcom = self.wb_com.sheet_by_index(0)
-        self.looper = self.sheet.nrows-1
+        self.looper = self.sheet.nrows - 1
 
         self.comment_percent()
         self.share_percent()
 
         try:
-            f = open('./accounts info/Working_Accounts.txt')
+            f = open('./accounts info/Working_Accounts.txt', 'r+')
             x = f.readlines()
             y = len(x) - 1
             self.last_line = int(x[y])
+            print("Last working account", self.last_line , self.looper)
             if self.last_line == self.looper:
-                f = open('./accounts info/Working_Accounts.txt')
+                f = open('./accounts info/Working_Accounts.txt','r+')
                 f.truncate()
-                exit()
+                self.last_line = 0
         except:
-            f = open('./accounts info/Working_Accounts.txt', "r+")
-            f.truncate()
             self.last_line = 0
+
         with console.status("[bold yellow]Work in progress . . .") as status:
-            print(self.last_line, self.looper)
+
             while self.last_line != self.looper:
                 for self.i in range(self.last_line, self.looper):
+                    console.print("Current account state ===> ",  self.i, "Account ", "  Last account ===>  ",
+                                self.looper, "Account ", justify="center", style="white on magenta")
 
                     self.username = self.sheet.cell_value(self.i, 0)
                     self.password = self.sheet.cell_value(self.i, 1)
@@ -92,11 +99,15 @@ class social_media():
                     # fill the login form and get to the home page
                     self.driver.get(home_url)
                     time.sleep(delay)
+                    if (type(self.username) is float):
+                        self.driver.find_element(By.XPATH,
+                                                 "//input[@id='email']").send_keys(str(int(self.username)))
+                    else:
+                        self.driver.find_element(By.XPATH,
+                                                 "//input[@id='email']").send_keys(str(self.username))
+
                     self.driver.find_element(By.XPATH,
-                                             "//input[@id='email']").send_keys(self.username)
-                    time.sleep(delay)
-                    self.driver.find_element(By.XPATH,
-                                             "//input[@id='pass']").send_keys(self.password)
+                                     "//input[@id='pass']").send_keys(self.password)
                     time.sleep(delay)
                     self.driver.find_element(By.NAME, "login").click()
                     time.sleep(delay)
@@ -106,8 +117,8 @@ class social_media():
 
                     if self.current_url == home_url:
                         console.print("Login Success", style="green")
-                        f = open('./accounts info/Working_Accounts.txt', 'a')
-                        f.write(str(self.i), '\n')
+                        f = open('./accounts info/Working_Accounts.txt', 'a+')
+                        f.write(str(self.i) + '\n')
                         f.close()
 
                         time.sleep(delay)
@@ -153,7 +164,9 @@ class social_media():
 
                 break
             console.log(
-                f"[green]Working on it[/green] {self.looper}")
+                f"[green]Working Done [/green] All {self.looper} Account")
+            f = open('./accounts info/Working_Accounts.txt', 'r+')
+            f.truncate()
         console.log(f'[bold][red]Done!')
 
     def exit(self):
@@ -165,23 +178,28 @@ class social_media():
         if my_comment == "1":
             # print("You have selected 1.100%")
             self.percentile_comment = int(self.looper*100/100)
-            print("Comment with ", self.percentile_comment, " Accounts")
+            print("Comment will be done by ===> ",
+                  self.percentile_comment, "Accounts")
         elif my_comment == "2":
             # print("You have selected 2.75%")
             self.percentile_comment = int(self.looper*75/100)
-            print("Comment with ", self.percentile_comment, " Accounts")
+            print("Comment will be done by ===> ",
+                  self.percentile_comment, "Accounts")
         elif my_comment == "3":
             # print("You have selected 3.50%")
             self.percentile_comment = int(self.looper*50/100)
-            print("Comment with ", self.percentile_comment, " Accounts")
+            print("Comment will be done by ===> ",
+                  self.percentile_comment, "Accounts")
         elif my_comment == "4":
             # print("You have selected 4.25%")
             self.percentile_comment = int(self.looper*25/100)
-            print("Comment with ", self.percentile_comment, " Accounts")
+            print("Comment will be done by ===> ",
+                  self.percentile_comment, "Accounts")
         elif my_comment == "5":
             # print("You have selected Nothing")
             self.percentile_comment = int(self.looper*0/100)
-            print("Comment with ", self.percentile_comment, " Accounts")
+            print("Comment will be done by ===> ",
+                  self.percentile_comment, "Accounts")
         else:
             print("You must enter between 1 up to 5 for Comment")
             exit()
@@ -190,23 +208,28 @@ class social_media():
         if my_share == "1":
             # print("You have selected 1.100%")
             self.percentile_share = int(self.looper*100/100)
-            print("Share with ", self.percentile_share, " Accounts")
+            print("Share will be done by ===>  ",
+                  self.percentile_share, "Accounts")
         elif my_share == "2":
             # print("You have selected 2.75%")
             self.percentile_share = int(self.looper*75/100)
-            print("Share with ", self.percentile_share, " Accounts")
+            print("Share will be done by ===>  ",
+                  self.percentile_share, "Accounts")
         elif my_share == "3":
             # print("You have selected 3.50%")
             self.percentile_share = int(self.looper*50/100)
-            print("Share with ", self.percentile_share, " Accounts")
+            print("Share will be done by ===>  ",
+                  self.percentile_share, "Accounts")
         elif my_share == "4":
             # print("You have selected 4.25%")
             self.percentile_share = int(self.looper*25/100)
-            print("Share with ", self.percentile_share, " Accounts")
+            print("Share will be done by ===>  ",
+                  self.percentile_share, "Accounts")
         elif my_share == "5":
             # print("You have selected Nothing")
             self.percentile_share = int(self.looper * 0/100)
-            print("Share with ", self.percentile_share, " Accounts")
+            print("Share will be done by ===>  ",
+                  self.percentile_share, "Accounts")
         else:
             print("You must enter between 1 up to 5 for Share")
             exit()
@@ -381,6 +404,7 @@ class social_media():
                     self.link = i['message']['text']
             except:
                 print("No links found")
+                exit()
 
         console.print("Get Link From Bot :  " + self.link,
                       style="link green" + self.link)
