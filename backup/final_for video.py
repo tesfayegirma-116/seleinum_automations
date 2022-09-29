@@ -17,11 +17,11 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 # delay timer for random time
-first_delay = random.randint(10, 30)
-second_delay = random.randint(20, 40)
-one_sec_delay = random.randint(40, 50)
-third_delay = random.randint(50, 80)
-fouth_delay = random.randint(20, 50)
+first_delay = random.randint(1, 3)
+second_delay = random.randint(2, 4)
+one_sec_delay = random.randint(4, 5)
+third_delay = random.randint(5, 8)
+fouth_delay = random.randint(2, 5)
 # links variable
 home_url = 'https://www.facebook.com/'
 disbled_link = 'checkpoint/disabled/?next'
@@ -66,7 +66,7 @@ time.sleep(first_delay)
 driver2.get("https://ident.me/")
 try:
     pc_ip = driver2.find_element(By.XPATH, "/html/body/pre").text
-    print(pc_ip)
+    # print(pc_ip)
     if str(pc_ip).count('.') == 3:
         pass
     else:
@@ -221,12 +221,11 @@ class social_media():
 
     def login(self):
         # self.create()
-        print("Check IP . . .")
-        self.check()
+        # self.check()
         self.track_comment = 0
         self.track_share = 0
 
-        self.wb_acc = xlrd.open_workbook(str('accounts.xlsx'))
+        self.wb_acc = xlrd.open_workbook('accounts.xlsx')
         self.wb_com = xlrd.open_workbook(str('exl_comments.xlsx'))
         self.sheet = self.wb_acc.sheet_by_index(0)
         self.sheetcom = self.wb_com.sheet_by_index(0)
@@ -235,7 +234,6 @@ class social_media():
         # truncate working_accounts.txt if it already equal to self.looper
 
         try:
-
             f = open('Working_Accounts.txt', 'r')
             x = f.readlines()
             y = len(x) - 1
@@ -250,11 +248,11 @@ class social_media():
         except:
             self.last_line = 0
 
-        A = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        B = [1, 2, 3]
-        Randomizer = ['even', 'odd']
-        max = 5
-        changed_counter = 0
+        # A = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        # B = [1, 2, 3]
+        # Randomizer = ['even', 'odd']
+        # max = 5
+        # changed_counter = 0
         for self.i in range(self.last_line, self.looper):
             first_delay = random.randint(1, 3)
             second_delay = random.randint(2, 4)
@@ -263,15 +261,15 @@ class social_media():
             fouth_delay = random.randint(2, 5)
             self.username = self.sheet.cell_value(self.i, 0)
             self.password = self.sheet.cell_value(self.i, 1)
-            # self.comment = self.sheetcom.cell_value(self.i, 0)
+            self.comment = self.sheetcom.cell_value(self.i, 0)
             # initalize the webdriver
 
-            s = random.choice(A)
-            z = random.choice(B)
-            c = s*z
-            print("value of c:", c)
+            # s = random.choice(A)
+            # z = random.choice(B)
+            # c = s*z
+            # print("value of c:", c)
 
-            Randf = random.choice(Randomizer)
+            # Randf = random.choice(Randomizer)
 
             # if c % 2 == 0 and Randf == 'even' and changed_counter < max:
             #     print('even.................change IP')
@@ -316,8 +314,13 @@ class social_media():
             # fill the login form and get to the home page
             self.driver.get(home_url)
             time.sleep(second_delay)
-            self.driver.find_element(By.XPATH,
-                                     "//input[@id='email']").send_keys(self.username)
+
+            if(type(self.username) is float):
+                self.driver.find_element(By.XPATH,
+                                     "//input[@id='email']").send_keys(str(int(self.username)))
+            else:
+                self.driver.find_element(By.XPATH,
+                                     "//input[@id='email']").send_keys(str(self.username))
             time.sleep(third_delay)
             self.driver.find_element(By.XPATH,
                                      "//input[@id='pass']").send_keys(self.password)
@@ -327,27 +330,25 @@ class social_media():
             self.driver.implicitly_wait(30)
 
             self.current_url = self.driver.current_url
-            print(self.current_url)
-            if self.current_url == home_url or self.current_url=="https://www.facebook.com/mobileprotection?source=mobile_mirror_nux":
+            # print(self.current_url)
+            if self.current_url == home_url:
                 print("login success")
                 f = open('Working_Accounts.txt', 'a')
-                f.write(str(self.i) + '\n')
+                # f.write(str(self.i) + '\n')
                 f.close()
 
                 self.comment_percent()
                 # print("The comment with : ", self.percentile_comment , "accounts")
                 self.share_percent()
                 # print("The share with : ", self.percentile_share , "accounts")
-                time.sleep(second_delay)
+                # time.sleep(second_delay)
                 # self.get_link()
-                self.get_falselink()
-                print("false here")
+                # self.get_falselink()
+                # print("false here")
                 # self.chop_chop()
                 time.sleep(third_delay)
                 # self.rand_false_link()
 
-                # # self.driver.get(self.link)
-                # time.sleep(one_sec_delay)
                 # self.random_functions()
                 # time.sleep(third_delay)
 
@@ -401,10 +402,8 @@ class social_media():
         time.sleep(fouth_delay)
 
     def like_post(self):
-        print("liking")
+        print("like post")
         try:
-            # like_buttons = self.driver.find_elements(By.CLASS_NAME,
-            #                                          "oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.mg4g778l.pfnyh3mw.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.du4w35lb.n00je7tq.arfg74bv.qs9ysxi8.k77z8yql.pq6dq46d.btwxx1t3.abiwlrkh.p8dawk7l.lzcic4wl.gokke00a")
             like_buttons = self.driver.find_elements(By.CLASS_NAME,
                                                      "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.dnr7xe2t.aeinzg81.srn514ro.oxkhqvkx.rl78xhln.nch0832m.om3e55n1.cr00lzj9.rn8ck1ys.g4tp4svg.o9erhkwx.dzqi5evh.hupbnkgi.hvb2xoa8.fxk3tzhb.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq.azwomqv7")
 
@@ -425,16 +424,17 @@ class social_media():
             print(e)
 
     def comment_post(self):
-
+        print("comment function start")
         time.sleep(first_delay)
         body = self.driver.find_element(By.TAG_NAME, 'body')
         try:
 
             comment_buttons = self.driver.find_elements(By.CLASS_NAME,
-                                                        "oo9gr5id.lzcic4wl.l9j0dhe7.gsox5hk5.notranslate")
+                                                        "pbevjfx6.icdlwmnq.om3e55n1.l4e6dv8b.notranslate")
             for comment_button in comment_buttons:
                 cheker_comment = comment_button.get_attribute("aria-label")
-                if cheker_comment == "Write a comment":
+                print(cheker_comment)
+                if cheker_comment == "Write a comment" or "Write a " in cheker_comment:
                     # page down
                     time.sleep(first_delay)
                     comment_button.click()
@@ -442,6 +442,7 @@ class social_media():
                     print(self.comment)
                     comment_button.send_keys(self.comment)
                     time.sleep(third_delay)
+                    print("comment send")
                     self.driver.implicitly_wait(30)
                     time.sleep(first_delay)
                     comment_button.send_keys(Keys.ENTER)
@@ -460,11 +461,8 @@ class social_media():
             print(e)
 
     def share_post(self):
-        # time.sleep(first_delay)
-        print("I am in share")
+        time.sleep(first_delay)
         body = self.driver.find_element(By.TAG_NAME, 'body')
-        # share_buttons = self.driver.find_elements(By.CLASS_NAME,
-        #                                           "oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.mg4g778l.pfnyh3mw.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.f1sip0of.du4w35lb.n00je7tq.arfg74bv.qs9ysxi8.k77z8yql.pq6dq46d.btwxx1t3.abiwlrkh.p8dawk7l.lzcic4wl")
         share_buttons = self.driver.find_elements(By.CLASS_NAME,
                                                   "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.dnr7xe2t.aeinzg81.srn514ro.oxkhqvkx.rl78xhln.nch0832m.om3e55n1.cr00lzj9.rn8ck1ys.s3jn8y49.g4tp4svg.o9erhkwx.dzqi5evh.hupbnkgi.hvb2xoa8.fxk3tzhb.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq")
         try:
@@ -477,33 +475,18 @@ class social_media():
                     print("    SHARE NOW      ")
                     third_delay = random.randint(5, 6)
                     time.sleep(third_delay)
-                    print("SHARE NOW ")
                     share_button.click()
                     self.driver.implicitly_wait(30)
-                    time.sleep(first_delay)
-                    try:
-                        self.driver.find_element(By.XPATH,"//span[contains(text(),'Share now (Friends)')]").click()
-                    except Exception as e:
-                        print(e)
-                        try:
-                             self.driver.find_element(By.XPATH,"//span[contains(text(),'Share now (Public)')]").click()
-                        except Exception as e:
-                            print(e)
-                            try:
-                                sharenows = self.driver.find_elements(
-                                    By.CLASS_NAME, "goun2846.mk2mc5f4.ccm00jje.s44p3ltw.rt8b4zig.sk4xxmp2.n8ej3o3l.agehan2d.rq0escxv.j83agx80.buofh1pr.g5gj957u.i1fnvgqd.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.qt6c0cv9.l9j0dhe7.du4w35lb.bp9cbjyn.btwxx1t3.dflh9lhu.scb9dxdr")
-                                self.driver.implicitly_wait(30)
-                                for sharenow in sharenows:
-                                    print(sharenow.text)
-                                    if sharenow.text == "Share now (Public)" or sharenow.text == "Share now (Friends)":
-                                        time.sleep(third_delay)
-                                        sharenow.click()
-                                        print("share now")
-                                        self.driver.implicitly_wait(30)
-
-
-                            except Exception as e:
-                                print(e)
+                    sharenows = self.driver.find_elements(
+                        By.CLASS_NAME, "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.dnr7xe2t.aeinzg81.srn514ro.oxkhqvkx.rl78xhln.nch0832m.om3e55n1.cr00lzj9.rn8ck1ys.s3jn8y49.g4tp4svg.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq.h8391g91.m0cukt09.kpwa50dg.ta68dy8c.b6ax4al1")
+                    self.driver.implicitly_wait(30)
+                    for sharenow in sharenows:
+                        print(sharenow.text)
+                        if sharenow.text == "Share now (Public)" or sharenow.text == "Share now (Friends)" or "Share now" in sharenow.text:
+                            time.sleep(third_delay)
+                            sharenow.click()
+                            print("share now")
+                            self.driver.implicitly_wait(30)
                         self.track_share = self.track_share + 1
                         with open('share_track.txt', 'w') as f:
                             f.write(str(self.track_share))
@@ -610,18 +593,18 @@ class social_media():
             self.link = f.read()
         print(self.link)
         self.driver.get(self.link)
-        time.sleep(third_delay)
+        time.sleep(one_sec_delay)
         self.like_post()
         time.sleep(third_delay)
-        # self.share_post()
-        # time.sleep(second_delay)
-        # # only comment with persntage of account
+
+        time.sleep(second_delay)
+        # only comment with persntage of account
         if self.percentile_comment == self.track_comment:
             print("not comment")
-            self.share_post()
             pass
         else:
             time.sleep(third_delay)
+            print("comment now . . .")
             self.comment_post()
             time.sleep(third_delay)
 
@@ -638,11 +621,11 @@ class social_media():
             print("not comment and share")
             time.sleep(third_delay)
             # close the browser and clear all the cookies
-            # self.logout()
-            # time.sleep(third_delay)
-            # self.driver.delete_all_cookies()
-            # time.sleep(third_delay)
-            # self.driver.quit()
+            self.logout()
+            time.sleep(third_delay)
+            self.driver.delete_all_cookies()
+            time.sleep(third_delay)
+            self.driver.quit()
 
         # self.share_post()
         # if self.track_comment < int(self.percentile_comment+1):

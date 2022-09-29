@@ -22,15 +22,15 @@ console.print(ascii_banner, justify="left")
 console.rule(
     f"Enter the number of accounts for Comment and Share Below: Current Date & Time:  {datetime.now().ctime()}")
 console.print("(1)  for   100%  accounts",
-              justify="center", style="white on magenta")
+              justify="center", style="white on blue")
 console.print("(2)  for   75%   accounts",
-              justify="center", style="white on magenta")
+              justify="center", style="white on blue")
 console.print("(3)  for   50%   accounts",
-              justify="center", style="white on magenta")
+              justify="center", style="white on blue")
 console.print("(4)  for   25%   accounts",
-              justify="center", style="white on magenta")
+              justify="center", style="white on blue")
 console.print("(5)  for   0%    accounts",
-              justify="center", style="white on magenta")
+              justify="center", style="white on blue")
 
 
 my_comment = input("Please Enter for Comment: ")
