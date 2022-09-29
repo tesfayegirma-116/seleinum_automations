@@ -2,12 +2,11 @@ import time
 import xlrd
 import random
 import pyfiglet
-from rich.console import Console
 from rich import print
+from rich.console import Console
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime
