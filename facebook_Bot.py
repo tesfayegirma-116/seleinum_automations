@@ -63,9 +63,9 @@ class social_media():
             x = f.readlines()
             y = len(x) - 1
             self.last_line = int(x[y])
-            print("Last working account", self.last_line , self.looper)
+            print("Last working account", self.last_line, self.looper)
             if self.last_line == self.looper:
-                f = open('./accounts info/Working_Accounts.txt','r+')
+                f = open('./accounts info/Working_Accounts.txt', 'r+')
                 f.truncate()
                 self.last_line = 0
         except:
@@ -76,7 +76,7 @@ class social_media():
             while self.last_line != self.looper:
                 for self.i in range(self.last_line, self.looper):
                     console.print("Current account state ===> ",  self.i, "Account ", "  Last account ===>  ",
-                                self.looper, "Account ", justify="center", style="white on magenta")
+                                  self.looper, "Account ", justify="center", style="white on magenta")
 
                     self.username = self.sheet.cell_value(self.i, 0)
                     self.password = self.sheet.cell_value(self.i, 1)
@@ -106,7 +106,7 @@ class social_media():
                                                  "//input[@id='email']").send_keys(str(self.username))
 
                     self.driver.find_element(By.XPATH,
-                                     "//input[@id='pass']").send_keys(self.password)
+                                             "//input[@id='pass']").send_keys(self.password)
                     time.sleep(delay)
                     self.driver.find_element(By.NAME, "login").click()
                     time.sleep(delay)
@@ -472,7 +472,7 @@ class social_media():
             time.sleep(3)
             driver2.quit()
         except Exception as e:
-            print(e)
+            pass
 
     def checkSameIp(self):
         for _ in range(5):
