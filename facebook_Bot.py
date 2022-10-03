@@ -11,8 +11,6 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime
 console = Console()
-delay = random.randint(5, 20)
-# Home page of  Terminal
 
 ascii_banner = pyfiglet.figlet_format(
     "F   A   C    E   B   O   O   K")
@@ -31,10 +29,8 @@ console.print("(4)  for   25%   accounts",
 console.print("(5)  for   0%    accounts",
               justify="center", style="white on blue")
 
-
 my_comment = input("Please Enter for Comment: ")
 my_share = input("Please Enter for Share: ")
-
 
 home_url = 'https://www.facebook.com/'
 disbled_link = 'checkpoint/disabled/?next'
@@ -44,6 +40,7 @@ password_fail = 'login/?privacy_mutation_token'
 class social_media():
 
     def login(self):
+        delay = random.randint(5, 20)
         self.track_comment = 0
         self.track_share = 0
 
@@ -75,6 +72,7 @@ class social_media():
 
             while self.last_line != self.looper:
                 for self.i in range(self.last_line, self.looper):
+                    delay = random.randint(5, 20)
                     console.print("Current account state ===> ",  self.i, "Account ", "  Last account ===>  ",
                                   self.looper, "Account ", justify="center", style="white on magenta")
 
@@ -94,8 +92,6 @@ class social_media():
 
                     self.driver = webdriver.Chrome(service=Service(
                         ChromeDriverManager().install()), options=chrome_options)
-
-                    delay = random.randint(5, 20)
                     delay = random.randint(5, 20)
                     # fill the login form and get to the home page
                     self.driver.get(home_url)
@@ -242,6 +238,7 @@ class social_media():
         self.false_link = false_file.readline()
 
     def rand_false_link(self):
+        delay = random.randint(5, 20)
         len_false_link = len(self.false_link)-1
         num = random.randrange(0, len_false_link)
         self.randomed_false_link = self.false_link[num]
@@ -289,7 +286,7 @@ class social_media():
                     self.track_comment = self.track_comment + 1
                     with open('./links/comment_track.txt', 'w+') as f:
                         f.write(str(self.track_comment))
-                        print("comment track : ", self.track_comment)
+                        print("comment counter : ", self.track_comment)
                     body.send_keys(Keys.PAGE_DOWN)
                     time.sleep(delay)
                     self.driver.implicitly_wait(30)
@@ -300,24 +297,28 @@ class social_media():
             print(e)
 
     def share_post(self):
-        time.sleep(delay)
         delay = random.randint(5, 20)
-        body = self.driver.find_element(By.TAG_NAME, 'body')
+        time.sleep(delay)
+        body_elem = self.driver.find_element(
+            By.TAG_NAME, 'body')
         share_buttons = self.driver.find_elements(By.CLASS_NAME,
                                                   "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.dnr7xe2t.aeinzg81.srn514ro.oxkhqvkx.rl78xhln.nch0832m.om3e55n1.cr00lzj9.rn8ck1ys.s3jn8y49.g4tp4svg.o9erhkwx.dzqi5evh.hupbnkgi.hvb2xoa8.fxk3tzhb.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq")
         try:
             for share_button in share_buttons:
+                body_elem.send_keys(Keys.ARROW_DOWN)
                 time.sleep(delay)
+                body_elem.send_keys(Keys.ARROW_DOWN)
+
                 checker_share = share_button.get_attribute("aria-label")
-                if checker_share == "Send this to friends or post it on your Timeline." or "Send this to friends or post it on your" in checker_share:
+                print(checker_share)
+                if checker_share == "Send this to friends or post it on your Timeline." or checker_share == "Send this to friends or post it on your timeline." or "Send this to friends or post it on your" in checker_share:
                     time.sleep(delay)
-                    self.driver.implicitly_wait(30)
                     share_button.click()
                     self.driver.implicitly_wait(30)
                     sharenows = self.driver.find_elements(
                         By.CLASS_NAME, "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.dnr7xe2t.aeinzg81.srn514ro.oxkhqvkx.rl78xhln.nch0832m.om3e55n1.cr00lzj9.rn8ck1ys.s3jn8y49.g4tp4svg.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq.h8391g91.m0cukt09.kpwa50dg.ta68dy8c.b6ax4al1")
-                    self.driver.implicitly_wait(30)
                     for sharenow in sharenows:
+                        print(sharenow.text)
                         if sharenow.text == "Share now (Public)" or sharenow.text == "Share now (Friends)" or "Share now" in sharenow.text:
                             time.sleep(delay)
                             sharenow.click()
@@ -327,10 +328,12 @@ class social_media():
                                 f.write(str(self.track_share))
                                 print("Share counter : ", self.track_share)
                                 time.sleep(delay)
+                        break
         except:
             pass
 
     def scroll_up_down(self):
+        delay = random.randint(5, 20)
         body = self.driver.find_element(By.TAG_NAME, 'body')
         body.send_keys(Keys.PAGE_DOWN)
         time.sleep(delay)
@@ -338,8 +341,6 @@ class social_media():
         time.sleep(delay)
 
     def page_like_scroll(self):
-        delay = random.randint(3, 5)
-        delay = random.randint(15, 20)
         delay = random.randint(20, 30)
         like = 0
         self.driver.get(self.randomed_false_link)
@@ -388,32 +389,36 @@ class social_media():
             time.sleep(delay)
 
     def target_link_perform(self):
-        """
-        Fetch Link From Telegram
-              BOT
-        """
-        import requests
-        import json
-        url = "https://api.telegram.org/bot5692464682:AAEKqvCKMsOKk2Po9m-dQP4_koR3OqumDjc/getUpdates?offset=-1"
+        try:
+            import requests
+            import json
 
-        links = requests.get(url)
+            delay = random.randint(5, 20)
+            url = "https://api.telegram.org/bot5692464682:AAEKqvCKMsOKk2Po9m-dQP4_koR3OqumDjc/getUpdates?offset=-1"
 
-        data = json.loads(links.text)
+            links = requests.get(url, verify=False)
 
-        for i in data['result']:
+            getText = links.text
+            time.sleep(delay)
+            data = json.loads(getText)
+
             try:
-                if 'edited_message' in i:
-                    self.link = i['edited_message']['text']
-                else:
-                    self.link = i['message']['text']
+                self.link = data['result'][0]['message']['text']
             except:
-                print("No links found")
-                exit()
+                pass
+
+            try:
+                self.link = data['result'][0]['edited_message']['text']
+            except:
+                pass
+        except:
+            print("Connection Refuesd")
+            exit()
 
         console.print("Get Link From Bot :  " + self.link,
                       style="link green" + self.link)
-        time.sleep(delay)
         delay = random.randint(5, 20)
+        time.sleep(delay)
         self.driver.get(self.link)
         time.sleep(delay)
         self.like_post()
@@ -444,6 +449,7 @@ class social_media():
             self.driver.quit()
             ascii_banner = pyfiglet.figlet_format("C o m p l e t e d")
             print(ascii_banner.center(120))
+            exit()
 
     """
     Check The IP Address And Change
@@ -451,6 +457,7 @@ class social_media():
     """
 
     def ipCheck(self):
+        delay = random.randint(5, 20)
         chrome_options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.geolocation": 2}
         chrome_options.add_experimental_option("prefs", prefs)
@@ -481,6 +488,7 @@ class social_media():
             pass
 
     def checkSameIp(self):
+        delay = random.randint(5, 20)
         for _ in range(5):
             self.driver = webdriver.Chrome(
                 service=Service(ChromeDriverManager().install()))
@@ -507,6 +515,7 @@ class social_media():
                 break
 
     def conn_enable(self):
+        delay = random.randint(5, 20)
         chrome_options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.geolocation": 2}
         chrome_options.add_experimental_option("prefs", prefs)
@@ -534,6 +543,7 @@ class social_media():
             self.driver.quit()
 
     def con_disable(self):
+        delay = random.randint(5, 20)
         chrome_options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.geolocation": 2}
         chrome_options.add_experimental_option("prefs", prefs)
@@ -563,6 +573,7 @@ class social_media():
             self.driver.quit()
 
     def logout(self):
+        delay = random.randint(5, 20)
         print("LOG OUT . . .")
         body = self.driver.find_element(By.TAG_NAME, 'body')
         body.send_keys(Keys.DOWN)
