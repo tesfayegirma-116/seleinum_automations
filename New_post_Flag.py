@@ -1,7 +1,9 @@
+from ast import Try
 import time
 import random
 import pyfiglet
 from rich import print
+import datetime
 from rich.console import Console
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -9,6 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+import requests
 
 console = Console()
 
@@ -18,6 +21,8 @@ delay = random.randint(3, 6)
 ascii_banner = pyfiglet.figlet_format(
     "N  E  W    P  O  S  T ")
 console.print(ascii_banner, justify="left")
+
+
 class NewPostFlag(object):
 
     def choose_method(self):
@@ -76,7 +81,8 @@ class NewPostFlag(object):
                     times = self.driver.find_elements(
                         By.CLASS_NAME, "qi72231t.nu7423ey.n3hqoq4p.r86q59rh.b3qcqh3k.fq87ekyn.bdao358l.fsf7x5fv.rse6dlih.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.srn514ro.oxkhqvkx.rl78xhln.nch0832m.cr00lzj9.rn8ck1ys.s3jn8y49.icdlwmnq.jxuftiz4.cxfqmxzd.tes86rjd")
                     for ttime in times:
-                        body_elem = self.driver.find_element(By.TAG_NAME, 'body')
+                        body_elem = self.driver.find_element(
+                            By.TAG_NAME, 'body')
                         body_elem.send_keys(Keys.ARROW_DOWN)
                         time.sleep(delay)
                         body_elem.send_keys(Keys.ARROW_UP)
@@ -86,13 +92,37 @@ class NewPostFlag(object):
                         time.sleep(delay)
 
                         if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m":
-                            links = [elem.get_attribute('href') for elem in times]
-                            print("Here is New Link -->   ",str(links[0]))
-                            with open("./links/file.txt", 'a+') as f:
-                                f.writelines("\n")
-                                f.writelines("New Post on " + links[0])
+                            self.links = [elem.get_attribute(
+                                'href') for elem in times]
+                            try:
+                                print("Here is New Link -->   ",
+                                      str(self.links[0]))
+                                with open("./links/file.txt", 'a+') as f:
+                                    f.writelines("\n")
+                                    f.writelines(
+                                        "New Post on " + self.links[0])
+                                time.sleep(delay)
+                                self.notify_tg_bot()
+                            except:
+                                pass
                         else:
                             pass
+
+    def notify_tg_bot(self):
+
+        bot_token = '5698535655:AAGfcd8MAvLMCZzgWEp7_2ZEiPCtsMgxzMs'
+        bot_chatID = '-1001753480632'
+        send_text = 'https://api.telegram.org/bot' + bot_token + \
+            '/sendMessage?chat_id=' + bot_chatID + \
+            '&text=' + str(self.links[0])
+        time.sleep(delay)
+        try:
+            requests.post(send_text)
+            print("Bot Send Link --> ", str(self.links[0]))
+        except:
+            print("No Link Found")
+            pass
+
 
 start = NewPostFlag()
 start.choose_method()

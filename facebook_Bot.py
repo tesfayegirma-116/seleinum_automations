@@ -95,6 +95,8 @@ class social_media():
                     self.driver = webdriver.Chrome(service=Service(
                         ChromeDriverManager().install()), options=chrome_options)
 
+                    delay = random.randint(5, 20)
+                    delay = random.randint(5, 20)
                     # fill the login form and get to the home page
                     self.driver.get(home_url)
                     time.sleep(delay)
@@ -169,6 +171,7 @@ class social_media():
         console.log(f'[bold][red]Done!')
 
     def exit(self):
+        delay = random.randint(5, 20)
         self.driver.delete_all_cookies()
         self.driver.quit()
         time.sleep(delay)
@@ -244,6 +247,7 @@ class social_media():
         self.randomed_false_link = self.false_link[num]
 
     def like_post(self):
+        delay = random.randint(5, 20)
         try:
             like_buttons = self.driver.find_elements(By.CLASS_NAME,
                                                      "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.dnr7xe2t.aeinzg81.srn514ro.oxkhqvkx.rl78xhln.nch0832m.om3e55n1.cr00lzj9.rn8ck1ys.g4tp4svg.o9erhkwx.dzqi5evh.hupbnkgi.hvb2xoa8.fxk3tzhb.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq.azwomqv7")
@@ -264,7 +268,7 @@ class social_media():
             pass
 
     def comment_post(self):
-        time.sleep(delay)
+        delay = random.randint(5, 20)
         body = self.driver.find_element(By.TAG_NAME, 'body')
         try:
             comment_buttons = self.driver.find_elements(By.CLASS_NAME,
@@ -297,6 +301,7 @@ class social_media():
 
     def share_post(self):
         time.sleep(delay)
+        delay = random.randint(5, 20)
         body = self.driver.find_element(By.TAG_NAME, 'body')
         share_buttons = self.driver.find_elements(By.CLASS_NAME,
                                                   "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.dnr7xe2t.aeinzg81.srn514ro.oxkhqvkx.rl78xhln.nch0832m.om3e55n1.cr00lzj9.rn8ck1ys.s3jn8y49.g4tp4svg.o9erhkwx.dzqi5evh.hupbnkgi.hvb2xoa8.fxk3tzhb.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq")
@@ -408,6 +413,7 @@ class social_media():
         console.print("Get Link From Bot :  " + self.link,
                       style="link green" + self.link)
         time.sleep(delay)
+        delay = random.randint(5, 20)
         self.driver.get(self.link)
         time.sleep(delay)
         self.like_post()
