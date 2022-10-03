@@ -13,8 +13,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 console = Console()
 
-delay = random.randint(1, 3)
-
+delay = random.randint(3, 6)
 
 ascii_banner = pyfiglet.figlet_format(
     "N  E  W    P  O  S  T ")
@@ -69,82 +68,35 @@ class NewPostFlag(object):
     def refersh_for_content(self):
         time.sleep(delay)
 
-        while True:
-            print("in while loop")
-            for self.i in range(self.x):
-                self.driver.switch_to.window(
-                    self.driver.window_handles[self.i])
-                time.sleep(delay)
-                self.driver.refresh()
-                times = self.driver.find_elements(
-                    By.CLASS_NAME, "qi72231t.nu7423ey.n3hqoq4p.r86q59rh.b3qcqh3k.fq87ekyn.bdao358l.fsf7x5fv.rse6dlih.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.srn514ro.oxkhqvkx.rl78xhln.nch0832m.cr00lzj9.rn8ck1ys.s3jn8y49.icdlwmnq.jxuftiz4.cxfqmxzd.tes86rjd")
-                for ttime in times:
-                    
-                    body_elem = self.driver.find_element(By.TAG_NAME, 'body')
-
-                    body_elem.send_keys(Keys.PAGE_DOWN)
+        with console.status("[bold yellow] Searching New Post . . .") as status:
+            while True:
+                time.sleep(10)
+                for self.i in range(self.x):
+                    self.driver.switch_to.window(
+                        self.driver.window_handles[self.i])
                     time.sleep(delay)
-                    body_elem.send_keys(Keys.PAGE_DOWN)
+                    self.driver.refresh()
                     time.sleep(delay)
-                    body_elem.send_keys(Keys.PAGE_DOWN)
-                    time.sleep(delay)
-                    body_elem.send_keys(Keys.PAGE_UP)
-                    time.sleep(delay)
-                    body_elem.send_keys(Keys.PAGE_UP)
-                    time.sleep(delay)
-                    body_elem.send_keys(Keys.PAGE_UP)
-                    
-                    sttime = ttime.text
-                    print(sttime)
-                    time.sleep(delay)
-
-                    if sttime == "Just now":
-                        print("flag just now")
-                        self.web = self.driver.current_url
-                        with open("./links/file.txt", "a+") as f:
-                            f.writelines("\n")
-                            f.writelines("New Post on " + self.web)
-                            f.writelines("\n")
-                            f.close()
-                        webbrowser.open("./links/file.txt")
+                    times = self.driver.find_elements(
+                        By.CLASS_NAME, "qi72231t.nu7423ey.n3hqoq4p.r86q59rh.b3qcqh3k.fq87ekyn.bdao358l.fsf7x5fv.rse6dlih.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.srn514ro.oxkhqvkx.rl78xhln.nch0832m.cr00lzj9.rn8ck1ys.s3jn8y49.icdlwmnq.jxuftiz4.cxfqmxzd.tes86rjd")
+                    for ttime in times:
+                        body_elem = self.driver.find_element(By.TAG_NAME, 'body')
+                        body_elem.send_keys(Keys.ARROW_DOWN)
                         time.sleep(delay)
-                        with open("file.txt", 'a') as fs:
-                            fs.seek(0)
-                            fs.truncate()
-                            fs.close()
-
-                    elif sttime == "2h":
-                        print("flag just now")
-                        links = [elem.get_attribute('href') for elem in times]
-                        print("Here is New Link -->   ",str(links[0]))
-                        with open("./links/file.txt", 'a+') as f:
-                            f.writelines("\n")
-                            f.writelines("New Post on " + links[0])
-                            f.writelines("\n")
-                            f.close()
-                        webbrowser.open("./links/file.txt")
+                        body_elem.send_keys(Keys.ARROW_UP)
                         time.sleep(delay)
-                        with open("./links/file.txt", 'a+') as fs:
-                            fs.seek(0)
-                            fs.truncate()
-                            fs.close()
-
-                    elif sttime == "5 mins":
-                        print("flag just now")
-                        self.web = self.driver.current_url
-                        with open("./links/file.txt", "a+") as f:
-                            f.writelines("\n")
-                            f.writelines("New Post on " + self.web)
-                            f.writelines("\n")
-                            f.close()
-                        webbrowser.open("./links/file.txt")
+                        sttime = ttime.text
+                        print(sttime)
                         time.sleep(delay)
-                        with open("./links/file.txt", 'a+') as fs:
-                            fs.seek(0)
-                            fs.truncate()
-                            fs.close()
-                    else:
-                        pass
+
+                        if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m":
+                            links = [elem.get_attribute('href') for elem in times]
+                            print("Here is New Link -->   ",str(links[0]))
+                            with open("./links/file.txt", 'a+') as f:
+                                f.writelines("\n")
+                                f.writelines("New Post on " + links[0])
+                        else:
+                            pass
 
 
 start = NewPostFlag()
