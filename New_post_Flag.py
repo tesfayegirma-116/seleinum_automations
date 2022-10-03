@@ -1,7 +1,6 @@
 import time
 import random
 import pyfiglet
-import webbrowser
 from rich import print
 from rich.console import Console
 from selenium import webdriver
@@ -15,11 +14,10 @@ console = Console()
 
 delay = random.randint(3, 6)
 
+
 ascii_banner = pyfiglet.figlet_format(
     "N  E  W    P  O  S  T ")
 console.print(ascii_banner, justify="left")
-
-
 class NewPostFlag(object):
 
     def choose_method(self):
@@ -30,13 +28,11 @@ class NewPostFlag(object):
     def read_links(self):
 
         self.converted_list = []
-        
+
         with open('./links/flagpagelink.txt', 'r') as file:
             self.lines_next = file.readlines()
             for element in self.lines_next:
                 self.converted_list.append(element.strip())
-
-            print(self.converted_list)
         self.x = len((self.lines_next))
 
     def open_new_TAb(self):
@@ -61,7 +57,7 @@ class NewPostFlag(object):
 
         for i in range(self.x):
             self.driver.switch_to.window(self.driver.window_handles[i])
-            time.sleep(delay)
+            time.sleep(10)
             self.driver.get(self.converted_list[i])
             time.sleep(delay)
 
@@ -97,7 +93,6 @@ class NewPostFlag(object):
                                 f.writelines("New Post on " + links[0])
                         else:
                             pass
-
 
 start = NewPostFlag()
 start.choose_method()

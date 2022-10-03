@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 https://www.facebook.com/SarcasmLol
 https://www.facebook.com/EBCzena
+=======
+https://www.facebook.com/cnninternational
+https://www.facebook.com/fanabroadcasting
+>>>>>>> 405d847097686627e3a9f68f1fb8d2bd7ffe13f3
