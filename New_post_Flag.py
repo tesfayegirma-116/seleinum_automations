@@ -111,11 +111,12 @@ class NewPostFlag(object):
         bot_token = '5698535655:AAGfcd8MAvLMCZzgWEp7_2ZEiPCtsMgxzMs'
         bot_chatID = '-1001753480632'
 
-
-        current_time = datetime.datetime.now().strftime("Post Date : %Y/%m/%d" + '\n' + "Post Time : %H:%M:%S")
+        current_time = datetime.datetime.now().strftime(
+            "Post Date : %Y/%m/%d" + '\n' + '\n' + "Post Time : %H:%M:%S")
 
         message_body = str(current_time) + '\n' + \
-            "Here Is The Link  \N{thumbs up sign}   :"+ '\n' + str(self.links[0])
+            "Here Is The Link  \N{thumbs up sign}   :" + \
+            '\n' + str(self.links[0])
         send_text = 'https://api.telegram.org/bot' + bot_token + \
             '/sendMessage?chat_id=' + bot_chatID + \
             '&text=' + str(message_body)
