@@ -1,4 +1,3 @@
-import json
 import time
 import xlrd
 import random
@@ -12,8 +11,6 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime
 console = Console()
-delay = random.randint(5, 20)
-# Home page of  Terminal
 
 ascii_banner = pyfiglet.figlet_format(
     "F   A   C    E   B   O   O   K")
@@ -32,10 +29,8 @@ console.print("(4)  for   25%   accounts",
 console.print("(5)  for   0%    accounts",
               justify="center", style="white on blue")
 
-
 my_comment = input("Please Enter for Comment: ")
 my_share = input("Please Enter for Share: ")
-
 
 home_url = 'https://www.facebook.com/'
 disbled_link = 'checkpoint/disabled/?next'
@@ -45,6 +40,7 @@ password_fail = 'login/?privacy_mutation_token'
 class social_media():
 
     def login(self):
+        delay = random.randint(5, 20)
         self.track_comment = 0
         self.track_share = 0
 
@@ -76,6 +72,7 @@ class social_media():
 
             while self.last_line != self.looper:
                 for self.i in range(self.last_line, self.looper):
+                    delay = random.randint(5, 20)
                     console.print("Current account state ===> ",  self.i, "Account ", "  Last account ===>  ",
                                   self.looper, "Account ", justify="center", style="white on magenta")
 
@@ -95,8 +92,6 @@ class social_media():
 
                     self.driver = webdriver.Chrome(service=Service(
                         ChromeDriverManager().install()), options=chrome_options)
-
-                    delay = random.randint(5, 20)
                     delay = random.randint(5, 20)
                     # fill the login form and get to the home page
                     self.driver.get(home_url)
@@ -243,6 +238,7 @@ class social_media():
         self.false_link = false_file.readline()
 
     def rand_false_link(self):
+        delay = random.randint(5, 20)
         len_false_link = len(self.false_link)-1
         num = random.randrange(0, len_false_link)
         self.randomed_false_link = self.false_link[num]
@@ -251,7 +247,7 @@ class social_media():
         delay = random.randint(5, 20)
         try:
             like_buttons = self.driver.find_elements(By.CLASS_NAME,
-                                                     "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.dnr7xe2t.aeinzg81.srn514ro.oxkhqvkx.rl78xhln.nch0832m.om3e55n1.cr00lzj9.rn8ck1ys.g4tp4svg.o9erhkwx.dzqi5evh.hupbnkgi.hvb2xoa8.fxk3tzhb.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq.azwomqv7")
+                                                     "x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x3nfvp2.x1q0g3np.x87ps6o.x1lku1pv.x1a2a7pz.x5ve5x3")
 
             for like_button in like_buttons:
                 cheker_like = like_button.get_attribute("aria-label")
@@ -290,7 +286,7 @@ class social_media():
                     self.track_comment = self.track_comment + 1
                     with open('./links/comment_track.txt', 'w+') as f:
                         f.write(str(self.track_comment))
-                        print("comment track : ", self.track_comment)
+                        print("comment counter : ", self.track_comment)
                     body.send_keys(Keys.PAGE_DOWN)
                     time.sleep(delay)
                     self.driver.implicitly_wait(30)
@@ -301,24 +297,21 @@ class social_media():
             print(e)
 
     def share_post(self):
-        time.sleep(delay)
-        delay = random.randint(5, 20)
-        body = self.driver.find_element(By.TAG_NAME, 'body')
+        delay = random.randint(2, 6)
         share_buttons = self.driver.find_elements(By.CLASS_NAME,
-                                                  "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.dnr7xe2t.aeinzg81.srn514ro.oxkhqvkx.rl78xhln.nch0832m.om3e55n1.cr00lzj9.rn8ck1ys.s3jn8y49.g4tp4svg.o9erhkwx.dzqi5evh.hupbnkgi.hvb2xoa8.fxk3tzhb.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq")
+                                                  "x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x3nfvp2.x1q0g3np.x87ps6o.x1lku1pv.x1a2a7pz")
         try:
             for share_button in share_buttons:
-                time.sleep(delay)
                 checker_share = share_button.get_attribute("aria-label")
-                if checker_share == "Send this to friends or post it on your Timeline." or "Send this to friends or post it on your" in checker_share:
+                print(checker_share)
+                if checker_share == "Send this to friends or post it on your Timeline." or checker_share == "Send this to friends or post it on your timeline." or "Send this to friends or post it on your" in checker_share:
                     time.sleep(delay)
-                    self.driver.implicitly_wait(30)
                     share_button.click()
                     self.driver.implicitly_wait(30)
                     sharenows = self.driver.find_elements(
-                        By.CLASS_NAME, "qi72231t.o9w3sbdw.nu7423ey.tav9wjvu.flwp5yud.tghlliq5.gkg15gwv.s9ok87oh.s9ljgwtm.lxqftegz.bf1zulr9.frfouenu.bonavkto.djs4p424.r7bn319e.bdao358l.fsf7x5fv.tgm57n0e.jez8cy9q.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.dnr7xe2t.aeinzg81.srn514ro.oxkhqvkx.rl78xhln.nch0832m.om3e55n1.cr00lzj9.rn8ck1ys.s3jn8y49.g4tp4svg.jl2a5g8c.f14ij5to.l3ldwz01.icdlwmnq.h8391g91.m0cukt09.kpwa50dg.ta68dy8c.b6ax4al1")
-                    self.driver.implicitly_wait(30)
+                        By.CLASS_NAME, "x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1q0g3np.x87ps6o.x1lku1pv.x1a2a7pz.x1lq5wgf.xgqcy7u.x30kzoy.x9jhf4c.x1lliihq")
                     for sharenow in sharenows:
+                        print(sharenow.text)
                         if sharenow.text == "Share now (Public)" or sharenow.text == "Share now (Friends)" or "Share now" in sharenow.text:
                             time.sleep(delay)
                             sharenow.click()
@@ -328,10 +321,22 @@ class social_media():
                                 f.write(str(self.track_share))
                                 print("Share counter : ", self.track_share)
                                 time.sleep(delay)
+                        else:
+                            if sharenow.text == "Share now (Public)" or sharenow.text == "Share now (Friends)" or "Share now" in sharenow.text:
+                                time.sleep(delay)
+                                sharenow.click()
+                                self.driver.implicitly_wait(30)
+                                self.track_share = self.track_share + 1
+                                with open('./links/share_track.txt', 'w+') as f:
+                                    f.write(str(self.track_share))
+                                    print("Share counter : ", self.track_share)
+                                    time.sleep(delay)
+
         except:
             pass
 
     def scroll_up_down(self):
+        delay = random.randint(5, 20)
         body = self.driver.find_element(By.TAG_NAME, 'body')
         body.send_keys(Keys.PAGE_DOWN)
         time.sleep(delay)
@@ -339,8 +344,6 @@ class social_media():
         time.sleep(delay)
 
     def page_like_scroll(self):
-        delay = random.randint(3, 5)
-        delay = random.randint(15, 20)
         delay = random.randint(20, 30)
         like = 0
         self.driver.get(self.randomed_false_link)
@@ -360,8 +363,6 @@ class social_media():
     def Home_scroll(self):
 
         delay = random.randint(3, 5)
-        delay = random.randint(15, 20)
-        delay = random.randint(20, 30)
         like = 0
         self.driver.get(home_url)
         time.sleep(delay)
@@ -389,21 +390,58 @@ class social_media():
             time.sleep(delay)
 
     def target_link_perform(self):
-        import requests
-        url = "https://api.telegram.org/bot5692464682:AAEKqvCKMsOKk2Po9m-dQP4_koR3OqumDjc/getUpdates?offset=-1"
-        links = requests.get(url)
+        try:
+            import requests
+            import json
 
-        data = json.loads(links.text)
+            delay = random.randint(5, 9)
+            url = "https://api.telegram.org/bot5692464682:AAEKqvCKMsOKk2Po9m-dQP4_koR3OqumDjc/getUpdates?offset=-1"
 
-        if data['result'][0]:
-            self.link = data['result'][0]['message']['text']
-        else:
-            self.link = data['result'][0]['edited_message']['text']
+            links = requests.get(url, verify=False)
+            time.sleep(delay)
+
+            getText = links.text
+
+            data = json.loads(getText)
+
+            try:
+                self.link = data['result'][0]['message']['text']
+            except:
+                pass
+
+            try:
+                self.link = data['result'][0]['edited_message']['text']
+            except:
+                pass
+        except:
+            print("Connection Refusd ")
+            import requests
+            import json
+
+            delay = random.randint(5, 20)
+            url = "https://api.telegram.org/bot5692464682:AAEKqvCKMsOKk2Po9m-dQP4_koR3OqumDjc/getUpdates?offset=-1"
+
+            links = requests.get(url, verify=False)
+            time.sleep(delay)
+
+            getText = links.text
+
+            data = json.loads(getText)
+
+            try:
+                self.link = data['result'][0]['message']['text']
+            except:
+                pass
+
+            try:
+                self.link = data['result'][0]['edited_message']['text']
+            except:
+                pass
 
         console.print("Get Link From Bot :  " + self.link,
                       style="link green" + self.link)
-        time.sleep(delay)
         delay = random.randint(5, 20)
+        time.sleep(delay)
         self.driver.get(self.link)
         time.sleep(delay)
         self.like_post()
@@ -434,6 +472,7 @@ class social_media():
             self.driver.quit()
             ascii_banner = pyfiglet.figlet_format("C o m p l e t e d")
             print(ascii_banner.center(120))
+            exit()
 
     """
     Check The IP Address And Change
@@ -441,6 +480,7 @@ class social_media():
     """
 
     def ipCheck(self):
+        delay = random.randint(5, 20)
         chrome_options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.geolocation": 2}
         chrome_options.add_experimental_option("prefs", prefs)
@@ -471,6 +511,7 @@ class social_media():
             pass
 
     def checkSameIp(self):
+        delay = random.randint(5, 20)
         for _ in range(5):
             self.driver = webdriver.Chrome(
                 service=Service(ChromeDriverManager().install()))
@@ -497,6 +538,7 @@ class social_media():
                 break
 
     def conn_enable(self):
+        delay = random.randint(5, 20)
         chrome_options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.geolocation": 2}
         chrome_options.add_experimental_option("prefs", prefs)
@@ -524,6 +566,7 @@ class social_media():
             self.driver.quit()
 
     def con_disable(self):
+        delay = random.randint(5, 20)
         chrome_options = webdriver.ChromeOptions()
         prefs = {"profile.default_content_setting_values.geolocation": 2}
         chrome_options.add_experimental_option("prefs", prefs)
@@ -548,21 +591,60 @@ class social_media():
             self.driver.implicitly_wait(10)
             self.driver.find_element(By.XPATH,
                                      "//span[@id='mobile_connect_btn']").click()
-            time.sleep(2)
+            time.sleep(delay)
             print('Connection disconnected')
             self.driver.quit()
 
     def logout(self):
-        print("LOG OUT . . .")
-        body = self.driver.find_element(By.TAG_NAME, 'body')
-        body.send_keys(Keys.DOWN)
-        self.driver.find_element(By.XPATH,
-                                 "//body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]/div[1]/span[1]/div[1]/div[1]").click()
-        self.driver.implicitly_wait(30)
+        try:
+            delay = random.randint(5, 8)
+            print("LOG OUT . . .")
+            logins = self.driver.find_elements(By.CLASS_NAME,
+                                               "x1ja2u2z.x1n2onr6.x1s65kcs.x15zctf7.x78zum5.x6s0dn4")
+            time.sleep(delay)
+            self.driver.implicitly_wait(30)
 
-        time.sleep(delay)
-        self.driver.find_element(By.XPATH,
-                                 "//span[contains(text(),'Log Out')]").click()
+            for login in logins:
+                time.sleep(25)
+                cheker_login = login.get_attribute("aria-label")
+                print(cheker_login)
+                if cheker_login == "Account controls and settings" or cheker_login == "Account controls" or cheker_login == "Account Controls and Settings":
+                    time.sleep(delay)
+                    self.driver.find_element(By.CLASS_NAME,
+                                             "x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x1q0g3np.x87ps6o.x1lku1pv.x1a2a7pz.xzsf02u.x1rg5ohu").click()
+                    self.driver.implicitly_wait(30)
+                    time.sleep(delay)
+                    getLogins = self.driver.find_elements(By.CLASS_NAME,
+                                                          "x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1q0g3np.x87ps6o.x1lku1pv.x1a2a7pz.x1lq5wgf.xgqcy7u.x30kzoy.x9jhf4c.x1lliihq")
+                    for getLogin in getLogins:
+                        print(getLogin.text)
+                        if getLogin == "Log Out" or "Log" in getLogin.text:
+                            time.sleep(delay)
+                            getLogin.click()
+                            self.driver.implicitly_wait(30)
+
+        except:
+            print("Log Out fail")
+            for login in logins:
+                time.sleep(delay)
+                cheker_login = login.get_attribute("aria-label")
+                print(cheker_login)
+                if cheker_login == "Account controls and settings" or cheker_login == "Account" or cheker_login == "Account Controls and Settings":
+                    time.sleep(delay)
+                    # self.driver.find_element(By.CLASS_NAME,
+                    # "x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1o1ewxj.x3x9cwd.x1e5q0jg.x13rtm0m.x1q0g3np.x87ps6o.x1lku1pv.x1a2a7pz.xzsf02u.x1rg5ohu").click()
+                    self.driver.implicitly_wait(30)
+                    time.sleep(delay)
+                    getLogins = self.driver.find_elements(By.CLASS_NAME,
+                                                          "x1i10hfl.x1qjc9v5.xjbqb8w.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.x13fuv20.xu3j5b3.x1q0q8m5.x26u7qi.x972fbf.xcfux6l.x1qhh985.xm0m39n.x9f619.x1ypdohk.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x16tdsg8.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1q0g3np.x87ps6o.x1lku1pv.x1a2a7pz.x1lq5wgf.xgqcy7u.x30kzoy.x9jhf4c.x1lliihq")
+                    for getLogin in getLogins:
+                        print(getLogin.text)
+                        if getLogin == "Log Out" or "Log" in getLogin.text:
+                            time.sleep(delay)
+                            getLogin.click()
+                            self.driver.implicitly_wait(30)
+
+            pass
 
 
 login = social_media()
