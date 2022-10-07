@@ -77,7 +77,7 @@ class NewPostFlag(object):
                     self.driver.refresh()
                     time.sleep(delay)
                     times = self.driver.find_elements(
-                        By.CLASS_NAME, "qi72231t.nu7423ey.n3hqoq4p.r86q59rh.b3qcqh3k.fq87ekyn.bdao358l.fsf7x5fv.rse6dlih.s5oniofx.m8h3af8h.l7ghb35v.kjdc1dyq.kmwttqpk.srn514ro.oxkhqvkx.rl78xhln.nch0832m.cr00lzj9.rn8ck1ys.s3jn8y49.icdlwmnq.jxuftiz4.cxfqmxzd.tes86rjd")
+                        By.CLASS_NAME, "x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.x1heor9g.xt0b8zv.xo1l8bm")
                     for ttime in times:
                         body_elem = self.driver.find_element(
                             By.TAG_NAME, 'body')
@@ -109,7 +109,7 @@ class NewPostFlag(object):
     def notify_tg_bot(self):
         import datetime
         bot_token = '5698535655:AAGfcd8MAvLMCZzgWEp7_2ZEiPCtsMgxzMs'
-        bot_chatID = '-1001753480632'
+        bot_chatID = '-615901499'
 
         current_time = datetime.datetime.now().strftime(
             "Post Date : %Y/%m/%d" + '\n' + '\n' + "Post Time : %H:%M:%S")
