@@ -1,1 +1,27 @@
-x1i10hfl.xjbqb8w.x6umtig.x1b1mbwd.xaqea5y.xav7gou.x9f619.x1ypdohk.xt0psk2.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x16tdsg8.x1hl2dhg.xggy1nq.x1a2a7pz.x1heor9g.xt0b8zv.xo1l8bm
+import requests
+import json
+try:
+    url = "https://api.telegram.org/bot5692464682:AAEKqvCKMsOKk2Po9m-dQP4_koR3OqumDjc/getUpdates?offset=-1"
+
+    links = requests.get(url)
+
+    getText = links.text
+
+    data = json.loads(getText)
+
+    try:
+        link = data['result'][0]['message']['text']
+    except:
+        pass
+    try:
+        link = data['result'][0]['edited_message']['text']
+    except:
+        pass
+
+    print("Try", link)
+
+except:
+
+    with open("./links/link.txt", 'r') as f:
+        link = f.readline()
+        print(link)

@@ -1,6 +1,8 @@
 import time
 import xlrd
+import json
 import random
+import requests
 import pyfiglet
 from rich import print
 from rich.console import Console
@@ -10,6 +12,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime
+
+
 console = Console()
 
 ascii_banner = pyfiglet.figlet_format(
@@ -391,9 +395,6 @@ class social_media():
 
     def target_link_perform(self):
         try:
-            import requests
-            import json
-
             delay = random.randint(5, 9)
             url = "https://api.telegram.org/bot5692464682:AAEKqvCKMsOKk2Po9m-dQP4_koR3OqumDjc/getUpdates?offset=-1"
 
@@ -414,29 +415,9 @@ class social_media():
             except:
                 pass
         except:
-            print("Connection Refusd ")
-            import requests
-            import json
-
-            delay = random.randint(5, 20)
-            url = "https://api.telegram.org/bot5692464682:AAEKqvCKMsOKk2Po9m-dQP4_koR3OqumDjc/getUpdates?offset=-1"
-
-            links = requests.get(url, verify=False)
-            time.sleep(delay)
-
-            getText = links.text
-
-            data = json.loads(getText)
-
-            try:
-                self.link = data['result'][0]['message']['text']
-            except:
-                pass
-
-            try:
-                self.link = data['result'][0]['edited_message']['text']
-            except:
-                pass
+            with open("./links/link.txt", 'r') as f:
+                self.link = f.readline()
+                print(self.link)
 
         console.print("Get Link From Bot :  " + self.link,
                       style="link green" + self.link)
