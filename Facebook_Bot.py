@@ -1,5 +1,5 @@
 import time
-import xlrd
+import pandas as pd
 import json
 import random
 import requests
@@ -44,17 +44,18 @@ password_fail = 'login/?privacy_mutation_token'
 class social_media():
 
     def login(self):
-        delay = random.randint(5, 20)
+        delay = random.randint(5, 20)   
         self.track_comment = 0
         self.track_share = 0
 
-        self.wb_acc = xlrd.open_workbook(
-            str('./accounts and comment/accounts.xlsx'))
-        self.wb_com = xlrd.open_workbook(
-            str('./accounts and comment/comments.xlsx'))
-        self.sheet = self.wb_acc.sheet_by_index(0)
-        self.sheetcom = self.wb_com.sheet_by_index(0)
-        self.looper = self.sheet.nrows - 1
+        self.wb_acc = pd.read_excel("accounts.xlsx")
+        self.name=self.wb_acc['user_name'].tolist()
+        self.password=self.wb_acc['account_password'].tolist()
+        
+        self.looper=len(self.name)
+        
+        self.wb_com = pd.read_excel("comments.xlsx")
+        self.comment_list=self.wb_com['comments'].tolist()
 
         self.comment_percent()
         self.share_percent()
@@ -80,9 +81,9 @@ class social_media():
                     console.print("Current account state ===> ",  self.i, "Account ", "  Last account ===>  ",
                                   self.looper, "Account ", justify="center", style="white on magenta")
 
-                    self.username = self.sheet.cell_value(self.i, 0)
-                    self.password = self.sheet.cell_value(self.i, 1)
-                    self.comment = self.sheetcom.cell_value(self.i, 0)
+                    self.username = self.name[self.i]
+                    self.password = self.password[self.i]
+                    self.comment = self.comment_list[self.i]
 
                     chrome_options = webdriver.ChromeOptions()
                     prefs = {
