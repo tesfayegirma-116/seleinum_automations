@@ -23,15 +23,15 @@ console.print(ascii_banner, justify="left")
 console.rule(
     f"Enter the number of accounts for Comment and Share Below: Current Date & Time:  {datetime.now().ctime()}")
 console.print("(1)  for   100%  accounts",
-              justify="center", style="white on blue")
+              justify="center", style="white on black")
 console.print("(2)  for   75%   accounts",
-              justify="center", style="white on blue")
+              justify="center", style="white on black")
 console.print("(3)  for   50%   accounts",
-              justify="center", style="white on blue")
+              justify="center", style="white on black")
 console.print("(4)  for   25%   accounts",
-              justify="center", style="white on blue")
+              justify="center", style="white on black")
 console.print("(5)  for   0%    accounts",
-              justify="center", style="white on blue")
+              justify="center", style="white on black")
 
 my_comment = input("Please Enter for Comment: ")
 my_share = input("Please Enter for Share: ")
@@ -44,18 +44,18 @@ password_fail = 'login/?privacy_mutation_token'
 class social_media():
 
     def login(self):
-        delay = random.randint(5, 20)   
+        delay = random.randint(5, 20)
         self.track_comment = 0
         self.track_share = 0
 
-        self.wb_acc = pd.read_excel("accounts.xlsx")
-        self.name=self.wb_acc['user_name'].tolist()
-        self.password=self.wb_acc['account_password'].tolist()
-        
-        self.looper=len(self.name)
-        
-        self.wb_com = pd.read_excel("comments.xlsx")
-        self.comment_list=self.wb_com['comments'].tolist()
+        self.wb_acc = pd.read_excel("./accounts and comment/accounts.xlsx")
+        self.name = self.wb_acc['user_name'].tolist()
+        self.password = self.wb_acc['account_password'].tolist()
+
+        self.looper = len(self.name)
+
+        self.wb_com = pd.read_excel("./accounts and comment/comments.xlsx")
+        self.comment_list = self.wb_com['comments'].tolist()
 
         self.comment_percent()
         self.share_percent()
