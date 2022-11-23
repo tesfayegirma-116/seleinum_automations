@@ -55,9 +55,6 @@ console.print("1 for read link from Telegram-BOT",
 read_link_from = input("Please Enter link source: ")
 
 
-
-
-
 home_url = 'https://www.facebook.com/'
 disbled_link = 'checkpoint/disabled/?next'
 password_fail = 'login/?privacy_mutation_token'
@@ -68,27 +65,27 @@ class social_media():
     def login(self):
         delay = random.randint(5, 20)
 
-        if read_excel_from=="0":
+        if read_excel_from == "0":
             self.wb_acc = pd.read_excel("./accounts and comment/accounts.xlsx")
 
-        elif read_link_from=="1":
+        elif read_link_from == "1":
 
-            self.scopes=[
+            self.scopes = [
 
                 'https://www.googleapis.com/auth/spreadsheets',
                 'https://www.googleapis.com/auth/drive',
             ]
-            self.creds=ServiceAccountCredentials.from_json_keyfile_name("/home/amin/Documents/GitHub/Synchronizing-google-spreedshet-with-local-python-script/files/key.json",scopes=self.scopes)
-            self.files=gspread.authorize(self.creds)
-            self.workbook=self.files.open("sheetxy")
-            self.sheet=self.workbook.sheet1
-            self.wb_acc= pd.DataFrame(self.sheet.get_all_records())
+            self.creds = ServiceAccountCredentials.from_json_keyfile_name(
+                "key.json", scopes=self.scopes)
+            self.files = gspread.authorize(self.creds)
+            self.workbook = self.files.open("sheetxy")
+            self.sheet = self.workbook.sheet1
+            self.wb_acc = pd.DataFrame(self.sheet.get_all_records())
         else:
             print("chices are only 0 and 1")
-            
+
         self.name = self.wb_acc['user_name'].tolist()
         self.password = self.wb_acc['account_password'].tolist()
-
 
         self.track_comment = 0
         self.track_share = 0
@@ -435,12 +432,12 @@ class social_media():
             time.sleep(delay)
 
     def target_link_perform(self):
-        if read_link_from=="0":
+        if read_link_from == "0":
             with open("./links/link.txt", 'r') as f:
                 self.link = f.readline()
                 print(self.link)
 
-        elif read_link_from=="1":
+        elif read_link_from == "1":
             delay = random.randint(5, 9)
             url = "https://api.telegram.org/bot5692464682:AAEKqvCKMsOKk2Po9m-dQP4_koR3OqumDjc/getUpdates?offset=-1"
 
@@ -463,8 +460,6 @@ class social_media():
 
         else:
             print("chices are only 0 and 1")
-
-
 
         console.print("Get Link From Bot :  " + self.link,
                       style="link green" + self.link)
