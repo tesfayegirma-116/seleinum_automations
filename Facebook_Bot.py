@@ -78,8 +78,8 @@ class social_media():
             self.creds = ServiceAccountCredentials.from_json_keyfile_name(
                 "./key.json", scopes=self.scopes)
             self.files = gspread.authorize(self.creds)
-            self.workbook = self.files.open("sheetxy")
-            self.sheet = self.workbook.sheet1
+            self.workbook = self.files.open("Account_Mgt")
+            self.sheet = self.workbook.worksheet('Sheet1')
             self.wb_acc = pd.DataFrame(self.sheet.get_all_records())
         else:
             print("chices are only 0 and 1")
