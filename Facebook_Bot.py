@@ -12,7 +12,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime
-
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 console = Console()
 
@@ -36,6 +37,27 @@ console.print("(5)  for   0%    accounts",
 my_comment = input("Please Enter for Comment: ")
 my_share = input("Please Enter for Share: ")
 
+
+console.print("0 for read account from local excel",
+              justify="center", style="white on black")
+console.print("1 for read account from google-sheet",
+              justify="center", style="white on black")
+
+read_excel_from = input("Please Enter account source: ")
+
+
+console.print("0 for read link from local",
+              justify="center", style="white on black")
+console.print("1 for read link from Telegram-BOT",
+              justify="center", style="white on black")
+
+
+read_link_from = input("Please Enter link source: ")
+
+
+
+
+
 home_url = 'https://www.facebook.com/'
 disbled_link = 'checkpoint/disabled/?next'
 password_fail = 'login/?privacy_mutation_token'
@@ -45,13 +67,31 @@ class social_media():
 
     def login(self):
         delay = random.randint(5, 20)
-        self.track_comment = 0
-        self.track_share = 0
 
-        self.wb_acc = pd.read_excel("./accounts and comment/accounts.xlsx")
+        if read_excel_from=="0":
+            self.wb_acc = pd.read_excel("./accounts and comment/accounts.xlsx")
+
+        elif read_link_from=="1":
+
+            self.scopes=[
+
+                'https://www.googleapis.com/auth/spreadsheets',
+                'https://www.googleapis.com/auth/drive',
+            ]
+            self.creds=ServiceAccountCredentials.from_json_keyfile_name("/home/amin/Documents/GitHub/Synchronizing-google-spreedshet-with-local-python-script/files/key.json",scopes=self.scopes)
+            self.files=gspread.authorize(self.creds)
+            self.workbook=self.files.open("sheetxy")
+            self.sheet=self.workbook.sheet1
+            self.wb_acc= pd.DataFrame(self.sheet.get_all_records())
+        else:
+            print("chices are only 0 and 1")
+            
         self.name = self.wb_acc['user_name'].tolist()
         self.password = self.wb_acc['account_password'].tolist()
 
+
+        self.track_comment = 0
+        self.track_share = 0
         self.looper = len(self.name)
 
         self.wb_com = pd.read_excel("./accounts and comment/comments.xlsx")
@@ -395,7 +435,12 @@ class social_media():
             time.sleep(delay)
 
     def target_link_perform(self):
-        try:
+        if read_link_from=="0":
+            with open("./links/link.txt", 'r') as f:
+                self.link = f.readline()
+                print(self.link)
+
+        elif read_link_from=="1":
             delay = random.randint(5, 9)
             url = "https://api.telegram.org/bot5692464682:AAEKqvCKMsOKk2Po9m-dQP4_koR3OqumDjc/getUpdates?offset=-1"
 
@@ -415,10 +460,11 @@ class social_media():
                 self.link = data['result'][0]['edited_message']['text']
             except:
                 pass
-        except:
-            with open("./links/link.txt", 'r') as f:
-                self.link = f.readline()
-                print(self.link)
+
+        else:
+            print("chices are only 0 and 1")
+
+
 
         console.print("Get Link From Bot :  " + self.link,
                       style="link green" + self.link)
