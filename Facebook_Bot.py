@@ -68,7 +68,7 @@ class social_media():
         if read_excel_from == "0":
             self.wb_acc = pd.read_excel("./accounts and comment/accounts.xlsx")
 
-        elif read_link_from == "1":
+        elif read_excel_from == "1":
 
             self.scopes = [
 
@@ -76,7 +76,7 @@ class social_media():
                 'https://www.googleapis.com/auth/drive',
             ]
             self.creds = ServiceAccountCredentials.from_json_keyfile_name(
-                "key.json", scopes=self.scopes)
+                "./key.json", scopes=self.scopes)
             self.files = gspread.authorize(self.creds)
             self.workbook = self.files.open("sheetxy")
             self.sheet = self.workbook.sheet1
@@ -433,7 +433,7 @@ class social_media():
 
     def target_link_perform(self):
         if read_link_from == "0":
-            with open("./links/link.txt", 'r') as f:
+            with open("./links/link.txt", 'r+') as f:
                 self.link = f.readline()
                 print(self.link)
 
