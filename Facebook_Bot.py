@@ -14,6 +14,11 @@ from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+
 
 console = Console()
 
@@ -59,9 +64,18 @@ disbled_link = 'checkpoint/disabled/?next'
 password_fail = 'login/?privacy_mutation_token'
 
 
+
 class social_media():
+    
 
     def login(self):
+
+        self.tooken=os.getenv('bot_tooken')
+        self.reporter=os.getenv('reporter_bot')
+        self.reported_to_chat_id=os.getenv('reported_to')
+        self.reporter_amin_chat_id=os.getenv('reporter_amin')
+        self.reporter_hop_chat_id=os.getenv('reporter_hop')
+
         delay = random.randint(5, 20)
 
         if read_excel_from == "0":
@@ -86,7 +100,8 @@ class social_media():
 
         self.user_name = self.sheet.col_values(1)
         self.account_password = self.sheet.col_values(2)
-
+     
+        self.track_likes=0
         self.track_comment = 0
         self.track_share = 0
         self.looper = len(self.user_name)
@@ -204,10 +219,54 @@ class social_media():
                 break
             console.log(
                 f"[green]Working Done [/green] All {self.looper} Account")
-            f = open('./accounts info/Working_Accounts.txt', 'r+')
-            f.truncate()
-        console.log(f'[bold][red]Done!')
+            self.send_faild_acounts()
 
+            Working_Accounts = open('./accounts info/Working_Accounts.txt', 'r+')
+            Working_Accounts.truncate()
+           
+            Disabled_Accounts = open('./accounts info/Disabled_Accounts.txt', 'r+')
+            Disabled_Accounts.truncate()
+            
+            Failed_Accounts = open('./accounts info/Failed_Accounts.txt', 'r+')
+            Failed_Accounts.truncate()
+
+            Password_Fail_Accounts = open('./accounts info/Password_Fail_Accounts.txt', 'r+')
+            Password_Fail_Accounts.truncate()
+        
+        console.log(f'[bold][red]Done!')
+        console.log(f'[bold][yellow]{self.track_likes} total likes from sheet2!')
+        console.log(f'[bold][yellow]{self.track_share} total share from sheet2!')
+        console.log(f'[bold][yellow]{self.track_comment} total comment from sheet2!')
+
+
+
+    def send_faild_acounts(self):
+
+        url = f"https://api.telegram.org/bot{self.reporter}/sendDocument?chat_id={self.reported_to_chat_id}"
+
+        tobe_reported_docs=['./accounts info/Disabled_Accounts.txt','./accounts info/Failed_Accounts.txt','./accounts info/Password_Fail_Accounts.txt']
+        doc_count=0
+        for docs in tobe_reported_docs:
+            doc_count+=1
+            files = {'document': open(f'{docs}', 'rb')}
+            response= requests.post(url, files=files)
+            status=response.status_code
+            if status==200:
+                print("Report sent!")
+
+                if doc_count==3:
+                    requests.post(f'https://api.telegram.org/bot{self.reporter}/sendMessage?chat_id={self.reported_to_chat_id}&text=sheet2_report👆\
+                    \n{self.track_likes} total likes from sheet2!\n{self.track_share} total share from sheet2!\n{self.track_comment} total comment from sheet2!')
+                    requests.post(f'https://api.telegram.org/bot{self.reporter}/sendMessage?chat_id={self.reported_to_chat_id}&text=➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖')
+
+                    requests.post(f'https://api.telegram.org/bot{self.reporter}/sendMessage?chat_id={self.reporter_amin_chat_id}&text=sheet2_report_succesfully_sent💪🏿\
+                         \n{self.track_likes} total likes from sheet2!\n{self.track_share} total share from sheet2!\n{self.track_comment} total comment from sheet2!')
+                    requests.post(f'https://api.telegram.org/bot{self.reporter}/sendMessage?chat_id={self.reporter_hop_chat_id}&text=sheet2_report_succesfully_sent💪🏿\
+                     \n{self.track_likes} total likes from sheet2!\n{self.track_share} total share from sheet2!\n{self.track_comment} total comment from sheet2!')
+                     
+            else:
+                print("couldnt send report ")
+        
     def exit(self):
         delay = random.randint(5, 20)
         self.driver.delete_all_cookies()
@@ -297,6 +356,8 @@ class social_media():
                     time.sleep(delay)
                     like_button.click()
                     print("Liked " + '\N{thumbs up sign}')
+                    self.track_likes+=1
+                    print(self.track_likes)
                     self.driver.implicitly_wait(30)
                     time.sleep(delay)
                     break
@@ -330,6 +391,8 @@ class social_media():
                         f.write(str(self.track_comment))
                         print("comment counter : ", self.track_comment)
                     body.send_keys(Keys.PAGE_DOWN)
+                    self.track_comment+=1
+                    print(self.track_comment)
                     time.sleep(delay)
                     self.driver.implicitly_wait(30)
                 else:
@@ -439,9 +502,9 @@ class social_media():
 
         elif read_link_from == "1":
             delay = random.randint(5, 9)
-            url = "https://api.telegram.org/bot5692464682:AAEKqvCKMsOKk2Po9m-dQP4_koR3OqumDjc/getUpdates?offset=-1"
+            url = f"https://api.telegram.org/bot{self.tooken}/getUpdates?offset=-1"
 
-            links = requests.get(url, verify=False)
+            self.links = requests.get(url, verify=False)
             time.sleep(delay)
 
             getText = links.text
