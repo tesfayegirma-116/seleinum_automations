@@ -355,9 +355,8 @@ class social_media():
                 if cheker_like == "Like":
                     time.sleep(delay)
                     like_button.click()
-                    print("Liked " + '\N{thumbs up sign}')
+                    print(f"{self.track_likes} times Liked " + '\N{thumbs up sign}')
                     self.track_likes+=1
-                    print(self.track_likes)
                     self.driver.implicitly_wait(30)
                     time.sleep(delay)
                     break
@@ -434,7 +433,7 @@ class social_media():
                                 self.track_share = self.track_share + 1
                                 with open('./links/share_track.txt', 'w+') as f:
                                     f.write(str(self.track_share))
-                                    print("Share counter : ", self.track_share)
+                                    print(f"{self.track_share} times shared 👫🏿🧍🏿🧍🏿‍♂️🧍🏿🧍🏿‍♂️🧍🏿🧍🏿‍♂️🧍🏿🧍🏿‍♂️🧍🏿‍♂️👫🏿")
                                     time.sleep(delay)
 
         except:
@@ -504,7 +503,7 @@ class social_media():
             delay = random.randint(5, 9)
             url = f"https://api.telegram.org/bot{self.tooken}/getUpdates?offset=-1"
 
-            self.links = requests.get(url, verify=False)
+            links = requests.get(url, verify=False)
             time.sleep(delay)
 
             getText = links.text
