@@ -1,5 +1,7 @@
 import time
 import random
+import requests
+import datetime
 import pyfiglet
 from rich import print
 from rich.console import Console
@@ -9,12 +11,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-import requests
 
 console = Console()
-
 delay = random.randint(3, 6)
-
 
 ascii_banner = pyfiglet.figlet_format(
     "N  E  W    P  O  S  T ")
@@ -90,24 +89,23 @@ class NewPostFlag(object):
                         time.sleep(delay)
 
                         if sttime == "Just now" or sttime == "1m" or sttime == "2m" or sttime == "1 m" or sttime == "2 m":
-                            self.links = [elem.get_attribute(
-                                'href') for elem in times]
-                            try:
-                                print("Here is New Link -->   ",
-                                      str(self.links[0]))
-                                with open("./links/file.txt", 'a+') as f:
-                                    f.writelines("\n")
-                                    f.writelines(
-                                        "New Post on " + self.links[0])
-                                time.sleep(delay)
-                                self.notify_tg_bot()
-                            except:
-                                pass
+                            self.links = [elem.get_attribute('href') for elem in times]
+                            with open("./links/file.txt", 'a+') as f:
+                                self.lines = f.readlines()
+                                if self.lines[len(self.lines)-1] != self.links:
+                                    try:
+                                        print("Here is New Link -->   ",
+                                            str(self.links[0]))
+                                        with open("./links/file.txt", 'a+') as f:
+                                            f.writelines("\nNew Post on " + self.links[0])
+                                        time.sleep(delay)
+                                        self.notify_tg_bot()
+                                    except:
+                                        pass
                         else:
                             pass
 
     def notify_tg_bot(self):
-        import datetime
         bot_token = '5698535655:AAGfcd8MAvLMCZzgWEp7_2ZEiPCtsMgxzMs'
         bot_chatID = '-615901499'
 
