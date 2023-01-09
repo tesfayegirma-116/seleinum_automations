@@ -1,0 +1,11 @@
+-login
+    -comment_percent
+    -share_percent
+    -target_link_perform
+        -like_post
+        -comment_post
+        -share_post
+        -logout
+    -send_faild_acounts
+    -logout
+    -exit

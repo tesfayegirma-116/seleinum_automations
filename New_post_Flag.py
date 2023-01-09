@@ -1,26 +1,26 @@
-import time
-import random
-import requests
-import datetime
-import pyfiglet
-from rich import print
-from rich.console import Console
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+# import time
+# import random
+# import requests
+# import datetime
+# import pyfiglet
+# from rich import print
+# from rich.console import Console
+# from selenium import webdriver
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.chrome.service import Service
+# from webdriver_manager.chrome import ChromeDriverManager
 
-console = Console()
-delay = random.randint(3, 6)
+# console = Console()
+# delay = random.randint(3, 6)
 
-ascii_banner = pyfiglet.figlet_format(
-    "N  E  W    P  O  S  T ")
-console.print(ascii_banner, justify="left")
+# ascii_banner = pyfiglet.figlet_format(
+#     "N  E  W    P  O  S  T ")
+# console.print(ascii_banner, justify="left")
 
 
-class NewPostFlag(object):
+# class NewPostFlag(object):
 
     def choose_method(self):
 
@@ -127,5 +127,5 @@ class NewPostFlag(object):
             pass
 
 
-start = NewPostFlag()
-start.choose_method()
+# start = NewPostFlag()
+# start.choose_method()

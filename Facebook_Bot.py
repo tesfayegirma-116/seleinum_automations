@@ -69,176 +69,194 @@ class social_media():
     
 
     def login(self):
+        for i in range(0,100000000000000000000000000000):
 
-        self.tooken=os.getenv('bot_tooken')
-        self.reporter=os.getenv('reporter_bot')
-        self.reported_to_chat_id=os.getenv('reported_to')
-        self.reporter_amin_chat_id=os.getenv('reporter_amin')
-        self.reporter_hop_chat_id=os.getenv('reporter_hop')
+            if connect():
+                try:
 
-        delay = random.randint(5, 20)
 
-        if read_excel_from == "0":
-            self.wb_acc = pd.read_excel("./accounts and comment/accounts.xlsx")
+                    self.tooken=os.getenv('bot_tooken')
+                    self.reporter=os.getenv('reporter_bot')
+                    self.reported_to_chat_id=os.getenv('reported_to')
+                    self.reporter_amin_chat_id=os.getenv('reporter_amin')
+                    self.reporter_hop_chat_id=os.getenv('reporter_hop')
 
-        elif read_excel_from == "1":
+                    delay = random.randint(5, 20)
 
-            self.scopes = [
+                    if read_excel_from == "0":
+                        self.wb_acc = pd.read_excel("./accounts and comment/accounts.xlsx")
 
-                'https://www.googleapis.com/auth/spreadsheets',
-                'https://www.googleapis.com/auth/drive',
-            ]
-            self.creds = ServiceAccountCredentials.from_json_keyfile_name(
-                "./key.json", scopes=self.scopes)
-            self.files = gspread.authorize(self.creds)
-            self.workbook = self.files.open("Account_Mgt")
-            self.sheet = self.workbook.worksheet('Sheet2')
-            self.wb_acc = pd.DataFrame(self.sheet.get_all_records())
-            print(self.wb_acc)
-        else:
-            print("chices are only 0 and 1")
+                    elif read_excel_from == "1":
 
-        self.user_name = self.sheet.col_values(1)
-        self.account_password = self.sheet.col_values(2)
-     
-        self.track_likes=0
-        self.track_comment = 0
-        self.track_share = 0
-        self.looper = len(self.user_name)
+                        self.scopes = [
 
-        self.wb_com = pd.read_excel("./accounts and comment/comments.xlsx")
-        self.comment_list = self.wb_com['comments'].tolist()
+                            'https://www.googleapis.com/auth/spreadsheets',
+                            'https://www.googleapis.com/auth/drive',
+                        ]
+                        self.creds = ServiceAccountCredentials.from_json_keyfile_name(
+                            "./key.json", scopes=self.scopes)
+                        self.files = gspread.authorize(self.creds)
+                        self.workbook = self.files.open("Account_Mgt")
+                        self.sheet = self.workbook.worksheet('Sheet2')
+                        self.wb_acc = pd.DataFrame(self.sheet.get_all_records())
+                        print(self.wb_acc)
+                    else:
+                        print("chices are only 0 and 1")
 
-        self.comment_percent()
-        self.share_percent()
+                    self.user_name = self.sheet.col_values(1)
+                    self.account_password = self.sheet.col_values(2)
+                
+                    self.track_likes=0
+                    self.track_comment = 0
+                    self.track_share = 0
+                    self.looper = len(self.user_name)
+
+                    self.wb_com = pd.read_excel("./accounts and comment/comments.xlsx")
+                    self.comment_list = self.wb_com['comments'].tolist()
+
+                    self.comment_percent()
+                    self.share_percent()
+
+                    try:
+                        f = open('./accounts info/Working_Accounts.txt', 'r+')
+                        x = f.readlines()
+                        y = len(x) - 1
+                        self.last_line = int(x[y])
+                        print("Last working account", self.last_line, self.looper)
+                        if self.last_line == self.looper:
+                            f = open('./accounts info/Working_Accounts.txt', 'r+')
+                            f.truncate()
+                            self.last_line = 0
+                    except:
+                        self.last_line = 0
+
+                    with console.status("[bold yellow]Work in progress . . .") as status:
+
+                        while self.last_line != self.looper:
+                            for self.i in range(self.last_line, self.looper):
+                                delay = random.randint(5, 20)
+                                console.print("Current account state ===> ",  self.i, "Account ", "  Last account ===>  ",
+                                            self.looper, "Account ", justify="center", style="white on magenta")
+
+                                self.username = self.user_name[self.i]
+                                self.password = self.account_password[self.i]
+                                self.comment = self.comment_list[self.i]
+
+                                chrome_options = webdriver.ChromeOptions()
+                                prefs = {
+                                    "profile.default_content_setting_values.geolocation": 2}
+                                chrome_options.add_experimental_option("prefs", prefs)
+                                chrome_options.add_argument("--disable-infobars")
+                                chrome_options.add_argument("--start-maximized")
+                                chrome_options.add_argument("--disable-notifications")
+                                chrome_options.add_argument("--disable-popup-blocking")
+                                chrome_options.add_argument("--incognito")
+
+                                self.driver = webdriver.Chrome(service=Service(
+                                    ChromeDriverManager().install()), options=chrome_options)
+                                delay = random.randint(5, 20)
+                                # fill the login form and get to the home page
+                                self.driver.get(home_url)
+                                time.sleep(delay)
+                                if (type(self.username) is float):
+                                    self.driver.find_element(By.XPATH,
+                                                            "//input[@id='email']").send_keys(str(int(self.username)))
+                                else:
+                                    self.driver.find_element(By.XPATH,
+                                                            "//input[@id='email']").send_keys(str(self.username))
+
+                                self.driver.find_element(By.XPATH,
+                                                        "//input[@id='pass']").send_keys(self.password)
+                                time.sleep(delay)
+                                self.driver.find_element(By.NAME, "login").click()
+                                time.sleep(delay)
+                                self.driver.implicitly_wait(30)
+
+                                self.current_url = self.driver.current_url
+
+                                if self.current_url == home_url:
+                                    console.print("Login Success", style="green")
+                                    f = open('./accounts info/Working_Accounts.txt', 'a+')
+                                    f.write(str(self.i) + '\n')
+                                    f.close()
+
+                                    time.sleep(delay)
+                                    self.target_link_perform()
+                                    time.sleep(delay)
+                                    self.logout()
+                                    time.sleep(delay)
+                                    self.driver.quit()
+
+                                    console.print(
+                                        "Next account loading . . .", style="yellow")
+
+                                elif disbled_link in self.current_url:
+                                    console.print("Login Disabled", style="red")
+                                    f = open('./accounts info/Disabled_Accounts.txt', 'a')
+                                    f.write(str(self.i) + ' ' + str(self.username) + '\n')
+                                    f.close()
+
+                                    self.exit()
+                                    console.print(
+                                        "Next account loading . . .", style="yellow")
+
+                                elif password_fail in self.current_url:
+                                    console.print("Password Fail", style="red")
+                                    f = open(
+                                        './accounts info/Password_Fail_Accounts.txt', 'a')
+                                    f.write(str(self.i) + ' ' + str(self.username) + '\n')
+                                    f.close()
+
+                                    self.exit()
+                                    console.print(
+                                        "Next account loading . . .", style="yellow")
+
+                                else:
+                                    console.print("Login Failed", style="red")
+                                    f = open('./accounts info/Failed_Accounts.txt', 'a')
+                                    f.write(str(self.i) + ' ' + str(self.username) + '\n')
+                                    f.close()
+
+                                    self.exit()
+                                    console.print(
+                                        "Next account loading . . .", style="yellow")
+
+                            break
+                        console.log(
+                            f"[green]Working Done [/green] All {self.looper} Account")
+                        self.send_faild_acounts()
+
+                        Working_Accounts = open('./accounts info/Working_Accounts.txt', 'r+')
+                        Working_Accounts.truncate()
+                    
+                        Disabled_Accounts = open('./accounts info/Disabled_Accounts.txt', 'r+')
+                        Disabled_Accounts.truncate()
+                        
+                        Failed_Accounts = open('./accounts info/Failed_Accounts.txt', 'r+')
+                        Failed_Accounts.truncate()
+
+                        Password_Fail_Accounts = open('./accounts info/Password_Fail_Accounts.txt', 'r+')
+                        Password_Fail_Accounts.truncate()
+                    
+                    console.log(f'[bold][red]Done!')
+                    console.log(f'[bold][yellow]{self.track_likes} total likes from sheet2!')
+                    console.log(f'[bold][yellow]{self.track_share} total share from sheet2!')
+                    console.log(f'[bold][yellow]{self.track_comment} total comment from sheet2!')
+                except Exception as e:
+                    print(e)
+                    print()
+            else:
+                print("no internet")
+    def connect(self):
+        #  ''' Used to test interet connection'''
+        host='http://google.com'
 
         try:
-            f = open('./accounts info/Working_Accounts.txt', 'r+')
-            x = f.readlines()
-            y = len(x) - 1
-            self.last_line = int(x[y])
-            print("Last working account", self.last_line, self.looper)
-            if self.last_line == self.looper:
-                f = open('./accounts info/Working_Accounts.txt', 'r+')
-                f.truncate()
-                self.last_line = 0
-        except:
-            self.last_line = 0
-
-        with console.status("[bold yellow]Work in progress . . .") as status:
-
-            while self.last_line != self.looper:
-                for self.i in range(self.last_line, self.looper):
-                    delay = random.randint(5, 20)
-                    console.print("Current account state ===> ",  self.i, "Account ", "  Last account ===>  ",
-                                  self.looper, "Account ", justify="center", style="white on magenta")
-
-                    self.username = self.user_name[self.i]
-                    self.password = self.account_password[self.i]
-                    self.comment = self.comment_list[self.i]
-
-                    chrome_options = webdriver.ChromeOptions()
-                    prefs = {
-                        "profile.default_content_setting_values.geolocation": 2}
-                    chrome_options.add_experimental_option("prefs", prefs)
-                    chrome_options.add_argument("--disable-infobars")
-                    chrome_options.add_argument("--start-maximized")
-                    chrome_options.add_argument("--disable-notifications")
-                    chrome_options.add_argument("--disable-popup-blocking")
-                    chrome_options.add_argument("--incognito")
-
-                    self.driver = webdriver.Chrome(service=Service(
-                        ChromeDriverManager().install()), options=chrome_options)
-                    delay = random.randint(5, 20)
-                    # fill the login form and get to the home page
-                    self.driver.get(home_url)
-                    time.sleep(delay)
-                    if (type(self.username) is float):
-                        self.driver.find_element(By.XPATH,
-                                                 "//input[@id='email']").send_keys(str(int(self.username)))
-                    else:
-                        self.driver.find_element(By.XPATH,
-                                                 "//input[@id='email']").send_keys(str(self.username))
-
-                    self.driver.find_element(By.XPATH,
-                                             "//input[@id='pass']").send_keys(self.password)
-                    time.sleep(delay)
-                    self.driver.find_element(By.NAME, "login").click()
-                    time.sleep(delay)
-                    self.driver.implicitly_wait(30)
-
-                    self.current_url = self.driver.current_url
-
-                    if self.current_url == home_url:
-                        console.print("Login Success", style="green")
-                        f = open('./accounts info/Working_Accounts.txt', 'a+')
-                        f.write(str(self.i) + '\n')
-                        f.close()
-
-                        time.sleep(delay)
-                        self.target_link_perform()
-                        time.sleep(delay)
-                        self.logout()
-                        time.sleep(delay)
-                        self.driver.quit()
-
-                        console.print(
-                            "Next account loading . . .", style="yellow")
-
-                    elif disbled_link in self.current_url:
-                        console.print("Login Disabled", style="red")
-                        f = open('./accounts info/Disabled_Accounts.txt', 'a')
-                        f.write(str(self.i) + ' ' + str(self.username) + '\n')
-                        f.close()
-
-                        self.exit()
-                        console.print(
-                            "Next account loading . . .", style="yellow")
-
-                    elif password_fail in self.current_url:
-                        console.print("Password Fail", style="red")
-                        f = open(
-                            './accounts info/Password_Fail_Accounts.txt', 'a')
-                        f.write(str(self.i) + ' ' + str(self.username) + '\n')
-                        f.close()
-
-                        self.exit()
-                        console.print(
-                            "Next account loading . . .", style="yellow")
-
-                    else:
-                        console.print("Login Failed", style="red")
-                        f = open('./accounts info/Failed_Accounts.txt', 'a')
-                        f.write(str(self.i) + ' ' + str(self.username) + '\n')
-                        f.close()
-
-                        self.exit()
-                        console.print(
-                            "Next account loading . . .", style="yellow")
-
-                break
-            console.log(
-                f"[green]Working Done [/green] All {self.looper} Account")
-            self.send_faild_acounts()
-
-            Working_Accounts = open('./accounts info/Working_Accounts.txt', 'r+')
-            Working_Accounts.truncate()
-           
-            Disabled_Accounts = open('./accounts info/Disabled_Accounts.txt', 'r+')
-            Disabled_Accounts.truncate()
-            
-            Failed_Accounts = open('./accounts info/Failed_Accounts.txt', 'r+')
-            Failed_Accounts.truncate()
-
-            Password_Fail_Accounts = open('./accounts info/Password_Fail_Accounts.txt', 'r+')
-            Password_Fail_Accounts.truncate()
-        
-        console.log(f'[bold][red]Done!')
-        console.log(f'[bold][yellow]{self.track_likes} total likes from sheet2!')
-        console.log(f'[bold][yellow]{self.track_share} total share from sheet2!')
-        console.log(f'[bold][yellow]{self.track_comment} total comment from sheet2!')
-
-
+            urllib.request.urlopen(host)
+            return True
+        except Exception as e:
+            print(e)
+            return False
 
     def send_faild_acounts(self):
 
