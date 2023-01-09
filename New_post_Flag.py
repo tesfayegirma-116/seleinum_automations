@@ -49,6 +49,8 @@
         chrome_options.add_argument("--disable-notifications")
         chrome_options.add_argument("--disable-popup-blocking")
         chrome_options.add_argument("--incognito")
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
 
         self.driver = webdriver.Chrome(service=Service(
             ChromeDriverManager().install()), options=chrome_options)
