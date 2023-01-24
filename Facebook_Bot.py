@@ -66,12 +66,13 @@ password_fail = 'login/?privacy_mutation_token'
 
 
 class social_media():
-    
+      
 
     def login(self):
         for i in range(0,100000000000000000000000000000):
 
             if connect():
+                
                 try:
 
 
@@ -97,7 +98,9 @@ class social_media():
                             "./key.json", scopes=self.scopes)
                         self.files = gspread.authorize(self.creds)
                         self.workbook = self.files.open("Account_Mgt")
-                        self.sheet = self.workbook.worksheet('Sheet2')
+                        sheet_name=os.getenv('sheetname')
+                        self.sheet = self.workbook.worksheet('sheet_name')
+                        
                         self.wb_acc = pd.DataFrame(self.sheet.get_all_records())
                         print(self.wb_acc)
                     else:
@@ -106,7 +109,7 @@ class social_media():
                     self.user_name = self.sheet.col_values(1)
                     self.account_password = self.sheet.col_values(2)
                 
-                    self.track_likes=0
+                    
                     self.track_comment = 0
                     self.track_share = 0
                     self.looper = len(self.user_name)
@@ -127,7 +130,18 @@ class social_media():
                             f = open('./accounts info/Working_Accounts.txt', 'r+')
                             f.truncate()
                             self.last_line = 0
+
+
+                        fl = open('./accounts info/likes.txt', 'r+')
+                        self.last_like = int(fl.readline())
+                        if self.last_like == self.looper:
+                            fl= open('./accounts info/likes.txt', 'r+')
+                            fl.truncate()
+                            self.last_like = 0
+
+
                     except:
+                        self.track_likes=0
                         self.last_line = 0
 
                     with console.status("[bold yellow]Work in progress . . .") as status:
@@ -224,20 +238,24 @@ class social_media():
                             break
                         console.log(
                             f"[green]Working Done [/green] All {self.looper} Account")
-                        self.send_faild_acounts()
+                        if self.send_faild_acounts():
 
-                        Working_Accounts = open('./accounts info/Working_Accounts.txt', 'r+')
-                        Working_Accounts.truncate()
-                    
-                        Disabled_Accounts = open('./accounts info/Disabled_Accounts.txt', 'r+')
-                        Disabled_Accounts.truncate()
+                            Working_Accounts = open('./accounts info/Working_Accounts.txt', 'r+')
+                            Working_Accounts.truncate()
                         
-                        Failed_Accounts = open('./accounts info/Failed_Accounts.txt', 'r+')
-                        Failed_Accounts.truncate()
+                            Disabled_Accounts = open('./accounts info/Disabled_Accounts.txt', 'r+')
+                            Disabled_Accounts.truncate()
+                            
+                            Failed_Accounts = open('./accounts info/Failed_Accounts.txt', 'r+')
+                            Failed_Accounts.truncate()
 
-                        Password_Fail_Accounts = open('./accounts info/Password_Fail_Accounts.txt', 'r+')
-                        Password_Fail_Accounts.truncate()
-                    
+                            Password_Fail_Accounts = open('./accounts info/Password_Fail_Accounts.txt', 'r+')
+                            Password_Fail_Accounts.truncate()
+
+                            like_track = open('./accounts info/likes.txt', 'r+')
+                            like_track.truncate()
+
+                        
                     console.log(f'[bold][red]Done!')
                     console.log(f'[bold][yellow]{self.track_likes} total likes from sheet2!')
                     console.log(f'[bold][yellow]{self.track_share} total share from sheet2!')
@@ -247,8 +265,10 @@ class social_media():
                     print()
             else:
                 print("no internet")
+    
     def connect(self):
         #  ''' Used to test interet connection'''
+        print('ola')
         host='http://google.com'
 
         try:
@@ -256,7 +276,7 @@ class social_media():
             return True
         except Exception as e:
             print(e)
-            return False
+            return False  
 
     def send_faild_acounts(self):
 
@@ -375,6 +395,9 @@ class social_media():
                     like_button.click()
                     print(f"{self.track_likes} times Liked " + '\N{thumbs up sign}')
                     self.track_likes+=1
+                    with open("./accounts info/likes.txt",'w') as f:
+                        f.write(self.track_likes)
+
                     self.driver.implicitly_wait(30)
                     time.sleep(delay)
                     break
