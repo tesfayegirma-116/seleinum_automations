@@ -1,3 +1,4 @@
+import socket
 import time
 import pandas as pd
 import json
@@ -71,7 +72,7 @@ class social_media():
     def login(self):
         for i in range(0,100000000000000000000000000000):
 
-            if connect():
+            if self.connect():
                 
                 try:
 
@@ -99,7 +100,7 @@ class social_media():
                         self.files = gspread.authorize(self.creds)
                         self.workbook = self.files.open("Account_Mgt")
                         sheet_name=os.getenv('sheetname')
-                        self.sheet = self.workbook.worksheet('sheet_name')
+                        self.sheet = self.workbook.worksheet(sheet_name)
                         
                         self.wb_acc = pd.DataFrame(self.sheet.get_all_records())
                         print(self.wb_acc)
@@ -264,19 +265,17 @@ class social_media():
                     print(e)
                     print()
             else:
-                print("no internet")
+                console.log(f'[bold][red]No internet connection!')
     
     def connect(self):
         #  ''' Used to test interet connection'''
-        print('ola')
-        host='http://google.com'
-
         try:
-            urllib.request.urlopen(host)
+            socket.create_connection(("www.google.com", 80))
             return True
-        except Exception as e:
-            print(e)
-            return False  
+        except OSError:
+            pass
+        return False
+        
 
     def send_faild_acounts(self):
 
@@ -293,14 +292,15 @@ class social_media():
                 print("Report sent!")
 
                 if doc_count==3:
-                    requests.post(f'https://api.telegram.org/bot{self.reporter}/sendMessage?chat_id={self.reported_to_chat_id}&text=sheet2_report👆\
-                    \n{self.track_likes} total likes from sheet2!\n{self.track_share} total share from sheet2!\n{self.track_comment} total comment from sheet2!')
+                    sheetNames = os.environ.get('sheetname')
+                    requests.post(f'https://api.telegram.org/bot{self.reporter}/sendMessage?chat_id={self.reported_to_chat_id}&text={sheetNames}_report👆\
+                    \n{self.track_likes} total likes from {sheetNames}!\n{self.track_share} total share from {sheetNames}!\n{self.track_comment} total comment from {sheetNames}!')
                     requests.post(f'https://api.telegram.org/bot{self.reporter}/sendMessage?chat_id={self.reported_to_chat_id}&text=➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖➖')
 
-                    requests.post(f'https://api.telegram.org/bot{self.reporter}/sendMessage?chat_id={self.reporter_amin_chat_id}&text=sheet2_report_succesfully_sent💪🏿\
-                         \n{self.track_likes} total likes from sheet2!\n{self.track_share} total share from sheet2!\n{self.track_comment} total comment from sheet2!')
-                    requests.post(f'https://api.telegram.org/bot{self.reporter}/sendMessage?chat_id={self.reporter_hop_chat_id}&text=sheet2_report_succesfully_sent💪🏿\
-                     \n{self.track_likes} total likes from sheet2!\n{self.track_share} total share from sheet2!\n{self.track_comment} total comment from sheet2!')
+                    requests.post(f'https://api.telegram.org/bot{self.reporter}/sendMessage?chat_id={self.reporter_amin_chat_id}&text={sheetNames}_report_succesfully_sent💪🏿\
+                         \n{self.track_likes} total likes from {sheetNames}!\n{self.track_share} total share from {sheetNames}!\n{self.track_comment} total comment from {sheetNames}!')
+                    requests.post(f'https://api.telegram.org/bot{self.reporter}/sendMessage?chat_id={self.reporter_hop_chat_id}&text={sheetNames}_report_succesfully_sent💪🏿\
+                     \n{self.track_likes} total likes from {sheetNames}!\n{self.track_share} total share from {sheetNames}!\n{self.track_comment} total comment from {sheetNames}!')
                      
             else:
                 print("couldnt send report ")
